@@ -44,6 +44,20 @@ body{
 
 }
 
+/* Decorative background for hero sections */
+.hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: url("../missions/chemistry-bg.png");
+    background-size: cover;
+    opacity: 0.12;
+    pointer-events: none;
+    /* Match the parent's border-radius */
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+}
+
 .back-btn{
 
     position:absolute;
@@ -532,4 +546,34 @@ body{
 
 }
 
+}
+
+/*====================================
+    TABLET & DESKTOP
+=====================================*/
+
+@media(min-width: 768px) {
+    body {
+        padding-bottom: 40px;
+    }
+
+    /* Center the main content blocks */
+    .hero,
+    .progress-card,
+    .content,
+    .reward-card {
+        max-width: 960px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* Create a grid for lesson and activity cards */
+    .content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    .content h3 {
+        grid-column: 1 / -1; /* Make title span both columns */
+    }
 }

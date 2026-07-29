@@ -10,6 +10,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
+        .about-header {
+            background:
+                linear-gradient(rgba(11, 42, 102, .86), rgba(11, 42, 102, .86)),
+                url("missions/chemistry-bg.png") center / cover;
+        }
         .about-card {
             background: white;
             border-radius: 20px;
@@ -26,12 +31,51 @@
             line-height: 1.7;
             color: #555;
         }
+        .developers-card > p {
+            margin-bottom: 18px;
+        }
+        .developer-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .developer-profile {
+            padding: 16px 10px;
+            border-radius: 16px;
+            background: #f4f7fb;
+            text-align: center;
+        }
+        .developer-photo-placeholder {
+            width: 82px;
+            height: 82px;
+            margin: 0 auto 12px;
+            border: 3px dashed #8da7d4;
+            border-radius: 50%;
+            background: #e8f0ff;
+            object-fit: cover;
+        }
+        .developer-profile h5 {
+            margin-bottom: 4px;
+            color: #0B2A66;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        .developer-profile p {
+            color: #667085;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        @media (max-width: 340px) {
+            .developer-list {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <header class="header" style="padding-bottom: 20px; text-align: center;">
+    <header class="header about-header" style="padding-bottom: 20px; text-align: center;">
         <h1 style="color: white; font-size: 24px;">About CHEM & GO</h1>
     </header>
 
@@ -43,6 +87,24 @@
         <div class="about-card">
             <h4>Development</h4>
             <p>This application was developed as a project to demonstrate gamified learning in a mobile-first environment. It utilizes HTML, CSS, and JavaScript to create an interactive experience.</p>
+        </div>
+        <div class="about-card developers-card">
+            <h4>Developers</h4>
+            <p>Candon City Information Technology National High School</p>
+            <div class="developer-list">
+                <article class="developer-profile">
+                    <!-- Replace this src URL with Arreojn Lloyd G. Manzano's photo link. -->
+                    <img class="developer-photo-placeholder" src="assets/manzano.jpg" alt="Photo of Arreojn Lloyd G. Manzano">
+                    <h5>Arreojn Lloyd G. Manzano</h5>
+                    <p>Teacher III</p>
+                </article>
+                <article class="developer-profile">
+                    <!-- Replace this src URL with Jefferson L. Egalla's photo link. -->
+                    <img class="developer-photo-placeholder" src="assets/egalla.jpg" alt="Photo of Jefferson L. Egalla">
+                    <h5>Jefferson L. Egalla</h5>
+                    <p>Teacher III</p>
+                </article>
+            </div>
         </div>
         <div class="about-card">
             <h4>Version</h4>

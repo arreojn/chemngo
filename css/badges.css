@@ -1,0 +1,55 @@
+/*====================================
+    BADGES PAGE
+=====================================*/
+
+.badges-header {
+    background:
+        linear-gradient(rgba(11, 42, 102, .86), rgba(11, 42, 102, .86)),
+        url("../missions/chemistry-bg.png") center / cover;
+}
+
+.badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.badge-card {
+    background: white;
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+    transition: transform 0.3s ease;
+}
+
+.badge-card:hover {
+    transform: translateY(-5px);
+}
+
+.badge-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    margin-bottom: 10px;
+}
+
+.badge-card h4 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.badge-card p {
+    font-size: 13px;
+    color: #666;
+    min-height: 36px; /* Ensure consistent height */
+}
+
+/* Locked badge styles */
+.badge-card.locked {
+    opacity: 0.6;
+    filter: grayscale(100%);
+    cursor: not-allowed;
+}

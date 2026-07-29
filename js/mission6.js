@@ -36,6 +36,9 @@ function updateUI(progress) {
     const lessons = document.querySelectorAll(".lesson-card");
     const quizCard = document.getElementById("quizCard");
     const quizButton = document.getElementById("quizButton");
+    const achievementCard = document.getElementById("achievementCard");
+    const achievementButton = document.getElementById("achievementButton");
+    const additionalResources = document.querySelectorAll("#additionalResources .activity-card");
 
     // Update Review Topics (styled as "lesson-card")
     lessons.forEach((lesson, index) => {
@@ -68,7 +71,23 @@ function updateUI(progress) {
         quizButton.textContent = "✓ Mastered";
         quizButton.disabled = true;
         quizCard.classList.add("completed");
+
+        // Unlock Achievement
+        achievementCard.classList.remove("locked");
+        achievementButton.disabled = false;
+        achievementButton.textContent = "View Certificate";
+    } else {
+        // Lock Achievement
+        achievementCard.classList.add("locked");
+        achievementButton.disabled = true;
+        achievementButton.textContent = "Locked";
     }
+
+    // Update Additional Resources
+    additionalResources.forEach(card => {
+        card.classList.toggle('locked', !progress.quizCompleted);
+        card.style.cursor = progress.quizCompleted ? 'pointer' : 'default';
+    });
 
     // Update Progress Bar
     let completedTasks = progress.lessons.filter(Boolean).length;
@@ -93,6 +112,20 @@ function setupEventListeners(progress) {
         if (!this.disabled) {
             startQuiz();
         }
+    });
+
+    document.getElementById("achievementButton").addEventListener("click", function() {
+        if (!this.disabled) {
+            alert("Congratulations! You've earned the CHEM Explorer Digital Certificate!");
+        }
+    });
+
+    document.querySelectorAll("#additionalResources .activity-card").forEach(card => {
+        card.addEventListener("click", () => {
+            if (!card.classList.contains('locked')) {
+                window.location.href = 'resources.html';
+            }
+        });
     });
 }
 

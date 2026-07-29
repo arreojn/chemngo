@@ -19,61 +19,6 @@
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <style>
-        /* Fix for hero section on small screens */
-        @media (max-width: 430px) {
-            .hero-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            .hero-left, .hero-right {
-                width: 100%;
-            }
-            .hero-right {
-                margin-top: 20px;
-            }
-            .hero-logo {
-                margin: 0 auto 15px;
-            }
-            .progress-wrapper {
-                flex-direction: column;
-            }
-        }
-
-        /* Responsive styles for larger screens (tablets and desktops) */
-        @media (min-width: 768px) {
-            body {
-                max-width: none; /* Allow body to expand */
-            }
-
-            /* Center and constrain the layout on wider screens */
-            .header,
-            .section,
-            .bottom-nav {
-                max-width: 960px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .mission-grid {
-                grid-template-columns: repeat(3, 1fr); /* Display 3 missions per row */
-            }
-
-            /* Adjust bottom navigation for desktop view */
-            .bottom-nav {
-                position: static; /* Change from fixed to static */
-                transform: none;
-                border-radius: 20px;
-                margin-top: 20px;
-            }
-
-            /* Override inline padding now that nav is not fixed */
-            main.section {
-                padding-bottom: 20px !important;
-            }
-        }
-    </style>
-
 </head>
 
 <body>
@@ -89,7 +34,7 @@
 
         <div class="profile">
 
-            <img src="assets/avatar.png" alt="Avatar">
+            <img src="assets/avatar.png" alt="Avatar" id="profileAvatar">
 
             <div>
 
@@ -103,7 +48,7 @@
 
         <div class="actions">
 
-            <div class="icon-box" onclick="openBadges()">
+            <div class="icon-box" onclick="window.location.href='badges.html'">
 
                 <i class="fa-solid fa-trophy"></i>
 

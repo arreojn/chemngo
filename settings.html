@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | CHEM & GO</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/mission.css"> <!-- Reusing mission styles for header -->
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+<body>
+
+    <header class="hero">
+        <button class="back-btn" onclick="window.location.href='home.html'">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <h1>Settings</h1>
+    </header>
+
+    <main class="section" style="padding-bottom: 80px;">
+        <!-- Student Summary -->
+        <section class="settings-section">
+            <h3 class="settings-title">Student Summary</h3>
+            <div class="summary-card" aria-label="Student learning summary">
+                <div class="summary-item summary-name">
+                    <span>Complete Name</span>
+                    <strong id="summaryName">—</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Grade Level</span>
+                    <strong id="summaryGrade">—</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Section</span>
+                    <strong id="summarySection">—</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Missions Completed</span>
+                    <strong id="summaryMissions">0 / 6</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Total Earned XP</span>
+                    <strong id="summaryXp">0 XP</strong>
+                </div>
+                <div class="summary-item">
+                    <span>Badges Collected</span>
+                    <strong id="summaryBadges">0</strong>
+                </div>
+            </div>
+
+            <form class="summary-submit-form" method="POST" target="submissionFrame" action="https://script.google.com/macros/s/AKfycbwtoM8BMf7eQ3RTbcIgiOeYVjmQB554TnqqPB-XNyTBcN0759NRYqQSiWHDmnUQkIAxlQ/exec">
+                <input type="hidden" name="completeName" id="submitName">
+                <input type="hidden" name="gradeLevel" id="submitGrade">
+                <input type="hidden" name="section" id="submitSection">
+                <input type="hidden" name="missionsCompleted" id="submitMissions">
+                <input type="hidden" name="totalEarnedXp" id="submitXp">
+                <input type="hidden" name="badgesCollected" id="submitBadges">
+                <button class="btn-submit" type="submit">
+                    <i class="fa-solid fa-paper-plane"></i> Submit Summary
+                </button>
+            </form>
+            <iframe class="submission-frame" name="submissionFrame" title="Summary submission status"></iframe>
+        </section>
+
+        <!-- Avatar Selection -->
+        <section class="settings-section">
+            <h3 class="settings-title">Change Your Avatar</h3>
+            <div class="avatar-grid" id="avatarGrid">
+                <!-- Avatars will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Data Management -->
+        <section class="settings-section">
+            <h3 class="settings-title">Data Management</h3>
+            <div class="settings-card">
+                <h4>Reset All Progress</h4>
+                <p>This will clear all your mission completions, badges, and XP. This action cannot be undone.</p>
+                <button class="btn-danger" id="resetProgressBtn">Reset Progress</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+    <nav class="bottom-nav">
+        <div class="nav-item" data-page="home">
+            <i class="fa-solid fa-house"></i> Home
+        </div>
+        <div class="nav-item" data-page="missions">
+            <i class="fa-solid fa-book-open"></i> Missions
+        </div>
+        <div class="nav-item" data-page="progress">
+            <i class="fa-solid fa-chart-line"></i> Progress
+        </div>
+        <div class="nav-item" data-page="resources">
+            <i class="fa-solid fa-flask"></i> Resources
+        </div>
+        <div class="nav-item" data-page="about">
+            <i class="fa-solid fa-circle-info"></i> About
+        </div>
+    </nav>
+
+    <script src="js/settings.js"></script>
+    <script src="js/navigation.js"></script>
+
+</body>
+</html>

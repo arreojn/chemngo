@@ -49,6 +49,10 @@ function loadStudent(){
     document.getElementById("studentInfo").textContent =
         student.grade + " • " + student.section;
 
+    // Update avatar
+    const avatarSrc = student.avatar || 'assets/avatars/avatar.png';
+    document.getElementById("profileAvatar").src = avatarSrc;
+
 }
 
 
@@ -254,21 +258,9 @@ function continueLearning(){
 
 function openSettings(){
 
-    alert("Settings page coming soon.");
+    window.location.href = 'settings.html';
 
 }
-
-
-/*=========================================
-    BADGES
-==========================================*/
-
-function openBadges(){
-
-    alert("Badges page coming soon.");
-
-}
-
 
 /*=========================================
     LOGOUT
