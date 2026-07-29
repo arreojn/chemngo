@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CHEM & GO</title>
+
+    <link rel="stylesheet" href="css/home.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <style>
+        /* Fix for hero section on small screens */
+        @media (max-width: 430px) {
+            .hero-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-left, .hero-right {
+                width: 100%;
+            }
+            .hero-right {
+                margin-top: 20px;
+            }
+            .hero-logo {
+                margin: 0 auto 15px;
+            }
+            .progress-wrapper {
+                flex-direction: column;
+            }
+        }
+
+        /* Responsive styles for larger screens (tablets and desktops) */
+        @media (min-width: 768px) {
+            body {
+                max-width: none; /* Allow body to expand */
+            }
+
+            /* Center and constrain the layout on wider screens */
+            .header,
+            .section,
+            .bottom-nav {
+                max-width: 960px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .mission-grid {
+                grid-template-columns: repeat(3, 1fr); /* Display 3 missions per row */
+            }
+
+            /* Adjust bottom navigation for desktop view */
+            .bottom-nav {
+                position: static; /* Change from fixed to static */
+                transform: none;
+                border-radius: 20px;
+                margin-top: 20px;
+            }
+
+            /* Override inline padding now that nav is not fixed */
+            main.section {
+                padding-bottom: 20px !important;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ================= HEADER ================= -->
+
+   <!-- ================= HEADER ================= -->
+
+<header class="header">
+
+    <!-- Top Navigation -->
+    <div class="top-bar">
+
+        <div class="profile">
+
+            <img src="assets/avatar.png" alt="Avatar">
+
+            <div>
+
+                <h2 id="studentName">Hello, Learner! 👋</h2>
+
+                <p id="studentInfo">Grade 11 • General Science</p>
+
+            </div>
+
+        </div>
+
+        <div class="actions">
+
+            <div class="icon-box" onclick="openBadges()">
+
+                <i class="fa-solid fa-trophy"></i>
+
+                <span>Badges</span>
+
+            </div>
+
+            <div class="icon-box" onclick="openSettings()">
+
+                <i class="fa-solid fa-gear"></i>
+
+                <span>Settings</span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Hero Banner -->
+
+    <div class="hero-card">
+
+        <div class="hero-left">
+
+            <img src="missions/logo.png"
+                 class="hero-logo"
+                 alt="CHEM & GO">
+
+            <h3>
+
+                Discover.
+                Understand.
+                <span>Identify. Everywhere!</span>
+
+            </h3>
+
+            <p>
+
+                Identify the type of chemical reactions
+                that occur in our daily activities.
+
+            </p>
+
+        </div>
+
+        <div class="hero-right">
+
+            <img src="missions/scientist.png"
+                 alt="Scientist">
+
+        </div>
+
+    </div>
+
+</header>
+
+    <!-- ================= CONTENT ================= -->
+
+    <main class="section" style="padding-bottom: 80px;">
+
+        <!-- Progress -->
+
+        <div class="progress-wrapper">
+
+            <div class="progress-card">
+
+                <h3>Your Progress</h3>
+
+                <div class="progress-bar">
+
+                    <div class="progress" id="progressBar"></div>
+
+                </div>
+
+                <div class="stats">
+
+                    <div>
+
+                        <small>Missions Completed</small><br>
+
+                        <strong id="missionCount">2 / 6</strong>
+
+                    </div>
+
+                    <div>
+
+                        <small>Overall Progress</small><br>
+
+                        <strong id="progressPercent">33%</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="continue-card">
+
+                <h4>
+
+                    <i class="fa-solid fa-circle-play"></i>
+
+                    Continue Learning
+
+                </h4>
+
+                <p id="continueMission">
+
+                    Mission 3: Chemistry at Home
+
+                </p>
+
+                <button class="continue-btn"
+                    onclick="continueLearning()">
+
+                    Continue
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- Missions -->
+
+        <h2 class="title">
+
+            🎯 Your Missions
+
+        </h2>
+
+        <div class="mission-grid">
+
+    <!-- Mission 1 -->
+    <div class="mission-card" data-mission="1">
+        <div class="mission-number">1</div>
+        <img src="missions/m1.png" alt="Mission 1">
+        <h4>Spot the Change</h4>
+        <p>Differentiate physical and chemical changes.</p>
+        <div class="status"></div>
+    </div>
+
+    <!-- Mission 2 -->
+    <div class="mission-card" data-mission="2">
+        <div class="mission-number">2</div>
+        <img src="missions/m2.png" alt="Mission 2">
+        <h4>Meet the Reactions</h4>
+        <p>Learn the five common chemical reactions.</p>
+        <div class="status"></div>
+    </div>
+
+    <!-- Mission 3 -->
+    <div class="mission-card" data-mission="3">
+        <div class="mission-number">3</div>
+        <img src="missions/m3.png" alt="Mission 3">
+        <h4>Chemistry at Home</h4>
+        <p>Discover chemistry in everyday life.</p>
+        <div class="status"></div>
+    </div>
+
+    <!-- Mission 4 -->
+    <div class="mission-card" data-mission="4">
+        <div class="mission-number">4</div>
+        <img src="missions/m4.png" alt="Mission 4">
+        <h4>Reaction Detective</h4>
+        <p>Investigate reactions through activities.</p>
+        <div class="status"></div>
+    </div>
+
+    <!-- Mission 5 -->
+    <div class="mission-card" data-mission="5">
+        <div class="mission-number">5</div>
+        <img src="missions/m5.png" alt="Mission 5">
+        <h4>Challenge Mode</h4>
+        <p>Complete quizzes and games.</p>
+        <div class="status"></div>
+    </div>
+
+    <!-- Mission 6 -->
+    <div class="mission-card" data-mission="6">
+        <div class="mission-number">6</div>
+        <img src="missions/m6.png" alt="Mission 6">
+        <h4>Chem Explorer</h4>
+        <p>Become the ultimate Chemistry Explorer.</p>
+        <div class="status"></div>
+    </div>
+
+</div>
+
+    </main>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <nav class="bottom-nav">
+
+        <div class="nav-item active" data-page="home">
+
+            <i class="fa-solid fa-house"></i>
+
+            Home
+
+        </div>
+
+        <div class="nav-item" data-page="missions">
+
+            <i class="fa-solid fa-book-open"></i>
+
+            Missions
+
+        </div>
+
+        <div class="nav-item" data-page="progress">
+
+            <i class="fa-solid fa-chart-line"></i>
+
+            Progress
+
+        </div>
+
+        <div class="nav-item" data-page="resources">
+
+            <i class="fa-solid fa-flask"></i>
+
+            Resources
+
+        </div>
+
+        <div class="nav-item" data-page="about">
+
+            <i class="fa-solid fa-circle-info"></i>
+
+            About
+
+        </div>
+
+    </nav>
+
+    <script src="js/home.js"></script>
+    <script src="js/navigation.js"></script>
+
+</body>
+
+</html>

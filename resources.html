@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources | CHEM & GO</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/mission.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="hero">
+        <h1>Resources</h1>
+        <p>Glossary, safety tips, and fun facts!</p>
+    </header>
+
+    <main class="content" style="padding-bottom: 80px;">
+
+        <div class="activity-card" style="flex-direction: column; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <div style="display: flex; align-items: center;"><i class="fa-solid fa-book"></i> <h4>Chemistry Glossary</h4></div>
+            <span>
+                Reactant • Product • Catalyst • Combustion • Precipitate
+            </span>
+        </div>
+
+        <div class="activity-card" style="flex-direction: column; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <div style="display: flex; align-items: center;"><i class="fa-solid fa-shield-halved"></i> <h4>Household Chemical Safety</h4></div>
+            <span>
+                Bleach • Vinegar • LPG • Alcohol • Cleaning Agents
+            </span>
+        </div>
+
+        <div class="activity-card" style="flex-direction: column; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <div style="display: flex; align-items: center;"><i class="fa-solid fa-lightbulb"></i> <h4>Did You Know?</h4></div>
+            <span>
+                Discover interesting chemistry facts from everyday life.
+            </span>
+        </div>
+
+        <div class="activity-card" style="flex-direction: column; align-items: flex-start; gap: 8px; cursor: pointer;">
+            <div style="display: flex; align-items: center;"><i class="fa-solid fa-vial"></i> <h4>Reaction Types</h4></div>
+            <span>
+                A quick review of the 5 common reaction types.
+            </span>
+        </div>
+
+    </main>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <nav class="bottom-nav" style="position: fixed; left: 50%; transform: translateX(-50%);">
+
+        <div class="nav-item" data-page="home">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </div>
+
+        <div class="nav-item" data-page="missions">
+            <i class="fa-solid fa-book-open"></i>
+            Missions
+        </div>
+
+        <div class="nav-item" data-page="progress">
+            <i class="fa-solid fa-chart-line"></i>
+            Progress
+        </div>
+
+        <div class="nav-item active" data-page="resources">
+            <i class="fa-solid fa-flask"></i>
+            Resources
+        </div>
+
+        <div class="nav-item" data-page="about">
+            <i class="fa-solid fa-circle-info"></i>
+            About
+        </div>
+
+    </nav>
+
+    <script src="js/navigation.js"></script>
+
+</body>
+
+</html>

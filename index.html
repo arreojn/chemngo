@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHEM & GO</title>
+
+    <link rel="stylesheet" href="css/login.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <img src="assets/logo.png" class="logo">
+
+        <h1>CHEM & GO</h1>
+
+        <p>Discover. Understand. Identify. Everywhere.</p>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Welcome, Learner!</h2>
+
+        <p class="subtitle">
+            Complete your profile to begin your chemistry learning adventure.
+        </p>
+
+        <form id="registerForm">
+
+            <label>Full Name</label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your full name"
+                required>
+
+            <label>Learner Reference Number (LRN)</label>
+
+            <input
+                type="text"
+                id="lrn"
+                maxlength="12"
+                placeholder="12-digit LRN"
+                required>
+
+            <label>Grade Level</label>
+
+            <select id="grade">
+
+                <option value="">Select Grade</option>
+
+                <option>Grade 11</option>
+
+                <option>Grade 12</option>
+
+            </select>
+
+            <label>Section</label>
+
+            <input
+                type="text"
+                id="section"
+                placeholder="Enter your section"
+                required>
+
+            <div class="checkbox">
+
+                <input type="checkbox" id="agree">
+
+                <label for="agree">
+                    I confirm that the information above is correct.
+                </label>
+
+            </div>
+
+            <button type="submit">
+
+                START LEARNING →
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="js/login.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Missions | CHEM & GO</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+</head>
+
+<body>
+
+    <header class="header" style="padding-bottom: 20px; text-align: center;">
+        <h1 style="color: white; font-size: 24px;">All Missions</h1>
+    </header>
+
+    <main class="section" style="padding-bottom: 80px;">
+
+        <div class="mission-grid">
+
+            <!-- Mission 1 -->
+            <div class="mission-card" data-mission="1">
+                <div class="mission-number">1</div>
+                <img src="missions/m1.png" alt="Mission 1">
+                <h4>Spot the Change</h4>
+                <p>Differentiate physical and chemical changes.</p>
+                <div class="status"></div>
+            </div>
+
+            <!-- Mission 2 -->
+            <div class="mission-card" data-mission="2">
+                <div class="mission-number">2</div>
+                <img src="missions/m2.png" alt="Mission 2">
+                <h4>Meet the Reactions</h4>
+                <p>Learn the five common chemical reactions.</p>
+                <div class="status"></div>
+            </div>
+
+            <!-- Mission 3 -->
+            <div class="mission-card" data-mission="3">
+                <div class="mission-number">3</div>
+                <img src="missions/m3.png" alt="Mission 3">
+                <h4>Chemistry at Home</h4>
+                <p>Discover chemistry in everyday life.</p>
+                <div class="status"></div>
+            </div>
+
+            <!-- Mission 4 -->
+            <div class="mission-card" data-mission="4">
+                <div class="mission-number">4</div>
+                <img src="missions/m4.png" alt="Mission 4">
+                <h4>Reaction Detective</h4>
+                <p>Investigate reactions through activities.</p>
+                <div class="status"></div>
+            </div>
+
+            <!-- Mission 5 -->
+            <div class="mission-card" data-mission="5">
+                <div class="mission-number">5</div>
+                <img src="missions/m5.png" alt="Mission 5">
+                <h4>Challenge Mode</h4>
+                <p>Complete quizzes and games.</p>
+                <div class="status"></div>
+            </div>
+
+            <!-- Mission 6 -->
+            <div class="mission-card" data-mission="6">
+                <div class="mission-number">6</div>
+                <img src="missions/m6.png" alt="Mission 6">
+                <h4>Chem Explorer</h4>
+                <p>Become the ultimate Chemistry Explorer.</p>
+                <div class="status"></div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <nav class="bottom-nav">
+
+        <div class="nav-item" data-page="home">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </div>
+
+        <div class="nav-item active" data-page="missions">
+            <i class="fa-solid fa-book-open"></i>
+            Missions
+        </div>
+
+        <div class="nav-item" data-page="progress">
+            <i class="fa-solid fa-chart-line"></i>
+            Progress
+        </div>
+
+        <div class="nav-item" data-page="resources">
+            <i class="fa-solid fa-flask"></i>
+            Resources
+        </div>
+
+        <div class="nav-item" data-page="about">
+            <i class="fa-solid fa-circle-info"></i>
+            About
+        </div>
+
+    </nav>
+
+    <script src="js/home.js"></script> <!-- For updateMissionCardStatus and initializeMissionCards -->
+    <script src="js/navigation.js"></script>
+
+</body>
+
+</html>

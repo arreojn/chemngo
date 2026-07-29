@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mission 1 | Spot the Change</title>
+
+    <link rel="stylesheet"
+          href="css/mission.css">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!--================ HEADER ================-->
+
+    <header class="hero">
+
+        <button class="back-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </button>
+
+        <img src="assets/missions/m1.png"
+             class="mission-icon">
+
+        <h1>Mission 1</h1>
+
+        <h2>Spot the Change</h2>
+
+        <p>
+
+            Differentiate Physical and Chemical Changes
+
+        </p>
+
+    </header>
+
+    <!--================ PROGRESS ================-->
+
+    <section class="progress-card">
+
+        <div class="progress-header">
+
+            <span>Mission Progress</span>
+
+            <span id="progressPercent">
+
+                0%
+
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress-fill"
+                 id="progressFill">
+
+            </div>
+
+        </div>
+
+    </section>
+
+    <!--================ LESSONS ================-->
+
+    <section class="content">
+
+        <h3>
+
+            <i class="fa-solid fa-book-open"></i>
+
+            Lessons
+
+        </h3>
+
+        <!-- Lesson 1 -->
+
+        <div class="lesson-card unlocked" data-lesson="1">
+
+            <div class="lesson-number">
+
+                1
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    What is Chemistry in Everyday Life?
+
+                </h4>
+
+                <p>
+
+                    Chemistry around us, everyday examples,
+                    and why chemical reactions matter.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!-- Lesson 2 -->
+
+        <div class="lesson-card locked" data-lesson="2">
+
+            <div class="lesson-number">
+
+                2
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    Physical Change vs Chemical Change
+
+                </h4>
+
+                <p>
+
+                    Learn the differences through
+                    real-life examples.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-lock"></i>
+
+        </div>
+
+        <!-- Lesson 3 -->
+
+        <div class="lesson-card locked" data-lesson="3">
+
+            <div class="lesson-number">
+
+                3
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    Signs of a Chemical Reaction
+
+                </h4>
+
+                <p>
+
+                    Identify observable evidence
+                    of chemical changes.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-lock"></i>
+
+        </div>
+
+    </section>
+
+    <!--================ ACTIVITIES ================-->
+
+    <section class="content">
+
+        <h3>
+
+            <i class="fa-solid fa-gamepad"></i>
+
+            Interactive Activities
+
+        </h3>
+        
+        <div class="activity-card locked" data-activity="1">
+
+            <i class="fa-solid fa-flask"></i>
+
+            Tap if Physical or Chemical
+
+            <span>
+
+                Locked
+
+            </span>
+
+        </div>
+
+        <div class="activity-card locked" data-activity="2">
+
+            <i class="fa-solid fa-image"></i>
+
+            Before and After Pictures
+
+            <span>
+
+                Locked
+
+            </span>
+
+        </div>
+
+        <div class="activity-card locked" data-activity="3">
+
+            <i class="fa-solid fa-check-circle"></i>
+
+            True or False
+
+            <span>
+
+                Locked
+
+            </span>
+
+        </div>
+
+    </section>
+
+    <!--================ QUIZ ================-->
+
+    <section class="content">
+
+        <h3>
+
+            <i class="fa-solid fa-clipboard-question"></i>
+
+            Mission Check
+
+        </h3>
+        
+        <div class="quiz-card" id="quizCard">
+
+            <div>
+
+                <h4>
+
+                    10-Question Assessment
+
+                </h4>
+
+                <p>
+
+                    Unlock after completing
+                    all lessons and activities.
+
+                </p>
+
+            </div>
+
+            <button disabled id="quizButton">
+
+                Locked
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!--================ QUIZ CONTAINER ================-->
+    <section class="content"
+             id="quizContainer"
+             style="display: none;">
+        <div class="quiz-box">
+            <div id="quiz-header">
+                <h3>Mission 1 Quiz</h3>
+                <p>Question <span id="question-number">1</span> of <span id="total-questions">10</span></p>
+            </div>
+
+            <div id="question-container">
+                <p id="question-text">Question text will load here.</p>
+            </div>
+
+            <div id="options-container">
+                <!-- Options will be generated by JS -->
+            </div>
+
+            <button id="next-question-btn">Next</button>
+
+            <div id="quiz-result"
+                 style="display: none;">
+                <h4>Quiz Complete!</h4>
+                <p>Your Score: <span id="score">10</span>/<span id="total-questions-result">10</span></p>
+                <p id="result-message">Excellent work! You've mastered the difference between physical and chemical changes.</p>
+                <div class="xp-reward">
+                    +100 XP
+                </div>
+                <button id="finish-mission-btn">Finish Mission</button>
+            </div>
+        </div>
+    </section>
+
+    <!--================ REWARDS ================-->
+
+    <section class="reward-card">
+
+        <i class="fa-solid fa-trophy"></i>
+
+        <div>
+
+            <h3>
+
+                Mission Reward
+
+            </h3>
+
+            <p>
+
+                ⭐ 100 XP
+
+                <br>
+
+                🏅 Spot the Change Badge
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <script src="js/mission1.js"></script>
+
+</body>
+
+</html>

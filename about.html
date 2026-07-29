@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | CHEM & GO</title>
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        .about-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,.08);
+        }
+        .about-card h4 {
+            margin-bottom: 10px;
+            color: #0B2A66;
+        }
+        .about-card p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #555;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header" style="padding-bottom: 20px; text-align: center;">
+        <h1 style="color: white; font-size: 24px;">About CHEM & GO</h1>
+    </header>
+
+    <main class="section" style="padding-bottom: 80px;">
+        <div class="about-card">
+            <h4>Our Mission</h4>
+            <p>CHEM & GO is designed to make learning chemistry engaging and accessible. By exploring chemical reactions in our daily lives, we aim to help students discover, understand, and identify chemistry everywhere.</p>
+        </div>
+        <div class="about-card">
+            <h4>Development</h4>
+            <p>This application was developed as a project to demonstrate gamified learning in a mobile-first environment. It utilizes HTML, CSS, and JavaScript to create an interactive experience.</p>
+        </div>
+        <div class="about-card">
+            <h4>Version</h4>
+            <p>1.0.0</p>
+        </div>
+    </main>
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <nav class="bottom-nav">
+
+        <div class="nav-item" data-page="home">
+            <i class="fa-solid fa-house"></i>
+            Home
+        </div>
+
+        <div class="nav-item" data-page="missions">
+            <i class="fa-solid fa-book-open"></i>
+            Missions
+        </div>
+
+        <div class="nav-item" data-page="progress">
+            <i class="fa-solid fa-chart-line"></i>
+            Progress
+        </div>
+
+        <div class="nav-item" data-page="resources">
+            <i class="fa-solid fa-flask"></i>
+            Resources
+        </div>
+
+        <div class="nav-item active" data-page="about">
+            <i class="fa-solid fa-circle-info"></i>
+            About
+        </div>
+
+    </nav>
+
+    <script src="js/navigation.js"></script>
+
+</body>
+
+</html>

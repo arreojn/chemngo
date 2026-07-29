@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Mission 3 | Chemistry at Home</title>
+
+    <link rel="stylesheet"
+          href="css/mission.css">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+</head>
+
+<body>
+
+    <!--================ HEADER ================-->
+
+    <header class="hero">
+        <button class="back-btn">
+
+            <i class="fa-solid fa-arrow-left"></i>
+
+        </button>
+
+        <img src="missions/m3.png"
+             class="mission-icon"
+             alt="Mission 3">
+
+        <h1>Mission 3</h1>
+
+        <h2>Chemistry at Home</h2>
+
+        <p>
+
+            Identify Chemical Reactions Occurring in Daily Life
+
+        </p>
+
+    </header>
+
+    <!--================ PROGRESS ================-->
+
+    <section class="progress-card">
+
+        <div class="progress-header">
+
+            <span>Mission Progress</span>
+
+            <span id="progressPercent">
+
+                0%
+
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div class="progress-fill"
+                 id="progressFill"></div>
+
+        </div>
+
+    </section>
+
+    <!--================ TOPICS ================-->
+
+    <section class="content">
+
+        <h3>
+
+            <i class="fa-solid fa-book-open"></i>
+
+            Learning Topics
+
+        </h3>
+
+        <!-- Topic 1 -->
+
+        <div class="lesson-card unlocked" data-lesson="1">
+
+            <div class="lesson-number">
+
+                1
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    Baking
+
+                </h4>
+
+                <p>
+
+                    Bread, cakes, cookies, baking soda, yeast, and identify the reaction involved.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-chevron-right"></i>
+
+        </div>
+
+        <!-- Topic 2 -->
+
+        <div class="lesson-card locked" data-lesson="2">
+
+            <div class="lesson-number">
+
+                2
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    Cleaning
+
+                </h4>
+
+                <p>
+
+                    Bleach, soap, detergent, vinegar, baking soda, and safety reminders.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-lock"></i>
+
+        </div>
+
+        <!-- Topic 3 -->
+
+        <div class="lesson-card locked" data-lesson="3">
+
+            <div class="lesson-number">
+
+                3
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    Burning
+
+                </h4>
+
+                <p>
+
+                    LPG, candles, charcoal, firewood, gasoline, and environmental effects.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-lock"></i>
+
+        </div>
+
+        <!-- Topic 4 -->
+
+        <div class="lesson-card locked" data-lesson="4">
+
+            <div class="lesson-number">
+
+                4
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    Cooking
+
+                </h4>
+
+                <p>
+
+                    Frying eggs, toasting bread, and caramelizing sugar.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-lock"></i>
+
+        </div>
+
+        <!-- Topic 5 -->
+
+        <div class="lesson-card locked" data-lesson="5">
+
+            <div class="lesson-number">
+
+                5
+
+            </div>
+
+            <div class="lesson-info">
+
+                <h4>
+
+                    Rusting
+
+                </h4>
+
+                <p>
+
+                    Roofs, gates, nails, bicycles, and other everyday examples.
+
+                </p>
+
+            </div>
+
+            <i class="fa-solid fa-lock"></i>
+
+        </div>
+
+    </section>
+
+    <!--================ ACTIVITIES ================-->
+
+    <section class="content">
+
+        <h3>
+
+            <i class="fa-solid fa-gamepad"></i>
+
+            Interactive Activities
+
+        </h3>
+
+        <div class="activity-card locked" data-activity="1">
+
+            <i class="fa-solid fa-image"></i>
+
+            Picture Identification
+
+            <span>
+
+                Locked
+
+            </span>
+
+        </div>
+
+        <div class="activity-card locked" data-activity="2">
+
+            <i class="fa-solid fa-video"></i>
+
+            Video Identification
+
+            <span>
+
+                Locked
+
+            </span>
+
+        </div>
+
+        <div class="activity-card locked" data-activity="3">
+
+            <i class="fa-solid fa-lightbulb"></i>
+
+            Scenario Analysis
+
+            <span>
+
+                Locked
+
+            </span>
+
+        </div>
+
+        <div class="activity-card locked" data-activity="4">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            Reaction Hunt
+
+            <span>
+
+                Locked
+
+            </span>
+
+        </div>
+
+    </section>
+
+    <!--================ QUIZ ================-->
+
+    <section class="content">
+
+        <h3>
+
+            <i class="fa-solid fa-clipboard-question"></i>
+
+            Mission Check
+
+        </h3>
+
+        <div class="quiz-card" id="quizCard">
+
+            <div>
+
+                <h4>
+
+                    20-Item Quiz
+
+                </h4>
+
+                <p>
+
+                    Complete all topics and activities to unlock the assessment.
+
+                </p>
+
+            </div>
+
+            <button disabled id="quizButton">
+
+                Locked
+
+            </button>
+
+        </div>
+
+    </section>
+
+    <!--================ QUIZ CONTAINER ================-->
+    <section class="content"
+             id="quizContainer"
+             style="display: none;">
+        <div class="quiz-box">
+            <div id="quiz-header">
+                <h3>Mission 3 Quiz</h3>
+                <p>Question <span id="question-number">1</span> of <span id="total-questions">20</span></p>
+            </div>
+
+            <div id="question-container">
+                <p id="question-text">Question text will load here.</p>
+            </div>
+
+            <div id="options-container">
+                <!-- Options will be generated by JS -->
+            </div>
+
+            <button id="next-question-btn">Next</button>
+
+            <div id="quiz-result"
+                 style="display: none;">
+                <h4>Quiz Complete!</h4>
+                <p>Your Score: <span id="score">0</span>/<span id="total-questions-result">20</span></p>
+                <p id="result-message"></p>
+                <div class="xp-reward">+200 XP</div>
+                <button id="finish-mission-btn">Finish Mission</button>
+            </div>
+        </div>
+
+    </section>
+
+    <!--================ REWARD ================-->
+
+    <section class="reward-card">
+
+        <i class="fa-solid fa-trophy"></i>
+
+        <div>
+
+            <h3>
+
+                Mission Reward
+
+            </h3>
+
+            <p>
+
+                ⭐ 200 XP
+
+                <br>
+
+                🏅 Chemistry at Home Badge
+
+            </p>
+
+        </div>
+
+    </section>
+
+    <script src="js/mission3.js"></script>
+
+</body>
+
+</html>
