@@ -9,7 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProgress();
     updateMissionCardStatus(); // Update card statuses based on progress
     initializeMissionCards(); // Initialize click handlers for mission cards
-    initializeNavigation(); // Initialize bottom navigation
 });
 
 function openMission(missionNumber) {
@@ -184,60 +183,6 @@ function initializeMissionCards(){
     });
 
 }
-
-
-
-/*=========================================
-    NAVIGATION
-==========================================*/
-
-function initializeNavigation(){
-
-    // This function is not currently called, but is available.
-    const navItems =
-        document.querySelectorAll(".nav-item");
-
-    navItems.forEach(item=>{
-
-        item.addEventListener("click",()=>{
-
-            const page=item.dataset.page;
-
-            switch(page){
-
-                case "home":
-
-                    window.location.href="home.html";
-                    break;
-
-                case "missions":
-
-                    window.location.href="missions.html";
-                    break;
-
-                case "progress":
-
-                    window.location.href="progress.html";
-                    break;
-
-                case "resources":
-
-                    window.location.href="resources.html";
-                    break;
-
-                case "about":
-
-                    window.location.href="about.html";
-                    break;
-
-            }
-
-        });
-
-    });
-
-}
-
 
 /*=========================================
     CONTINUE LEARNING
