@@ -71,7 +71,8 @@ function loadProgress(){
             total:6,
             currentMission: 1,
             missionTitle: "Spot the Change",
-            xp: 0
+            xp: 0,
+            streak: 3
         };
 
         localStorage.setItem("progress",JSON.stringify(progress));
@@ -90,6 +91,21 @@ function loadProgress(){
 
     document.getElementById("progressBar").style.width =
         percent + "%";
+
+    const xpValue = document.getElementById("xpValue");
+    if (xpValue) {
+        xpValue.textContent = `${progress.xp || 0} XP`;
+    }
+
+    const badgeCount = document.getElementById("badgeCount");
+    if (badgeCount) {
+        badgeCount.textContent = Math.min(progress.completed || 0, 6);
+    }
+
+    const streakCount = document.getElementById("streakCount");
+    if (streakCount) {
+        streakCount.textContent = `${progress.streak || 3} days`;
+    }
 
     updateContinueCard(progress);
 }
@@ -121,15 +137,18 @@ function updateMissionCardStatus() {
             // Mission is completed
             statusDiv.classList.add('completed');
             statusDiv.textContent = '✓ Completed';
+            card.classList.add('is-complete');
         } else if (missionNumber === currentMission) {
             // This is the next mission to do
             statusDiv.classList.add('progressing');
             statusDiv.textContent = 'Start Mission';
+            card.classList.remove('is-complete');
         } else {
             // Mission is locked
             statusDiv.classList.add('locked');
             statusDiv.textContent = 'Locked';
-            card.classList.add('disabled'); // Add a class to disable clicks/hover effects
+            card.classList.add('disabled');
+            card.classList.remove('is-complete');
         }
     });
 

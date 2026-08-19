@@ -32,6 +32,53 @@ function saveMissionProgress(progress) {
     localStorage.setItem(`mission${MISSION_ID}_progress`, JSON.stringify(progress));
 }
 
+function showMissionCompleteModal() {
+    const existingModal = document.getElementById('mission-complete-modal');
+    if (existingModal) {
+        existingModal.remove();
+    }
+
+    const modal = document.createElement('div');
+    modal.id = 'mission-complete-modal';
+    modal.className = 'mission-complete-modal';
+
+    const confetti = Array.from({ length: 24 }, () => {
+        const colors = ['#ffcc5c', '#4ecdc4', '#ff6b6b', '#5c7cfa', '#ffd166', '#06d6a0'];
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * 100;
+        const delay = (Math.random() * 0.75).toFixed(2);
+        const duration = (1.8 + Math.random() * 1.4).toFixed(2);
+        const rotation = (Math.random() * 180 - 90).toFixed(0);
+        return `<span class="confetti-piece" style="left:${left}%; --color:${color}; --delay:${delay}s; --duration:${duration}s; --rotation:${rotation}deg;"></span>`;
+    }).join('');
+
+    modal.innerHTML = `
+        <div class="mission-complete-backdrop"></div>
+        <div class="mission-complete-card">
+            <div class="confetti-wrap">${confetti}</div>
+            <div class="badge-icon"><i class="fa-solid fa-medal"></i></div>
+            <p class="eyebrow">Mission complete</p>
+            <h3>Badge unlocked</h3>
+            <p class="badge-message">You earned a chemistry badge. Keep exploring and unlock the next mission!</p>
+            <button class="mission-complete-btn">Continue</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const continueButton = modal.querySelector('.mission-complete-btn');
+    continueButton.addEventListener('click', () => {
+        modal.classList.add('closing');
+        setTimeout(() => modal.remove(), 220);
+    });
+
+    requestAnimationFrame(() => modal.classList.add('show'));
+    setTimeout(() => {
+        modal.classList.add('closing');
+        setTimeout(() => modal.remove(), 220);
+    }, 3200);
+}
+
 function updateUI(progress) {
     const lessons = document.querySelectorAll(".lesson-card");
     const activities = document.querySelectorAll(".activity-card");
@@ -118,6 +165,7 @@ function updateOverallProgress() {
         overallProgress.completed = overallProgress.completedMissions.length;
         overallProgress.xp = (overallProgress.xp || 0) + 250; // Award 250 XP for Mission 4
         localStorage.setItem("progress", JSON.stringify(overallProgress));
+        showMissionCompleteModal();
     }
 }
 

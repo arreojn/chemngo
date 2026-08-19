@@ -64,6 +64,34 @@
             <iframe class="submission-frame" name="submissionFrame" title="Summary submission status"></iframe>
         </section>
 
+        <div id="summarySubmitLoading" class="status-modal" aria-hidden="true">
+            <div class="status-modal-backdrop"></div>
+            <div class="status-modal-card loading-state">
+                <div class="status-loader"></div>
+                <h3>Submitting summary</h3>
+                <p>Please wait while your progress is being sent.</p>
+            </div>
+        </div>
+
+        <div id="summaryErrorPopup" class="status-modal" aria-hidden="true">
+            <div class="status-modal-backdrop"></div>
+            <div class="status-modal-card error-state">
+                <div class="status-icon error-icon"><i class="fa-solid fa-circle-xmark"></i></div>
+                <h3>Submission failed</h3>
+                <p id="summaryErrorMessage">We could not submit your summary right now.</p>
+                <button id="closeErrorPopup" class="status-modal-button error-button" type="button">Try again</button>
+            </div>
+        </div>
+
+        <div id="summarySuccessPopup" class="success-popup" aria-hidden="true">
+            <div class="success-popup-card">
+                <div class="success-check"><i class="fa-solid fa-check"></i></div>
+                <h3>Summary submitted</h3>
+                <p>Your progress has been sent successfully.</p>
+                <button id="closeSuccessPopup" class="success-popup-close" type="button">Done</button>
+            </div>
+        </div>
+
         <!-- Avatar Selection -->
         <section class="settings-section">
             <h3 class="settings-title">Change Your Avatar</h3>

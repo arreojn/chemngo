@@ -90,9 +90,28 @@ function setupEventListeners() {
         const submitButton = summaryForm.querySelector(".btn-submit");
         const submissionFrame = document.getElementById("submissionFrame");
         const successPopup = document.getElementById("summarySuccessPopup");
+        const errorPopup = document.getElementById("summaryErrorPopup");
+        const errorMessage = document.getElementById("summaryErrorMessage");
+        const loadingModal = document.getElementById("summarySubmitLoading");
         const closeSuccessPopup = document.getElementById("closeSuccessPopup");
+        const closeErrorPopup = document.getElementById("closeErrorPopup");
+
+        if (!submitButton || !submissionFrame || !successPopup || !errorPopup || !errorMessage || !loadingModal || !closeSuccessPopup || !closeErrorPopup) {
+            return;
+        }
+
         let submitTimeout;
         let isSubmitting = false;
+
+        const showLoadingModal = () => {
+            loadingModal.classList.add("is-visible");
+            loadingModal.setAttribute("aria-hidden", "false");
+        };
+
+        const hideLoadingModal = () => {
+            loadingModal.classList.remove("is-visible");
+            loadingModal.setAttribute("aria-hidden", "true");
+        };
 
         const showSuccessPopup = () => {
             successPopup.classList.add("is-visible");
@@ -105,66 +124,85 @@ function setupEventListeners() {
             successPopup.setAttribute("aria-hidden", "true");
         };
 
+        const showErrorPopup = (message) => {
+            errorMessage.textContent = message;
+            errorPopup.classList.add("is-visible");
+            errorPopup.setAttribute("aria-hidden", "false");
+            closeErrorPopup.focus();
+        };
+
+        const hideErrorPopup = () => {
+            errorPopup.classList.remove("is-visible");
+            errorPopup.setAttribute("aria-hidden", "true");
+        };
+
         closeSuccessPopup.addEventListener("click", hideSuccessPopup);
+        closeErrorPopup.addEventListener("click", hideErrorPopup);
         successPopup.addEventListener("click", (event) => {
             if (event.target === successPopup) hideSuccessPopup();
+        });
+        errorPopup.addEventListener("click", (event) => {
+            if (event.target === errorPopup) hideErrorPopup();
         });
 
         const resetSubmitButton = () => {
             clearTimeout(submitTimeout);
             isSubmitting = false;
+            hideLoadingModal();
             submitButton.disabled = false;
             submitButton.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Summary';
         };
 
-        // A completed response in the dedicated frame confirms that the form post returned.
+        const triggerSubmissionError = (message = "We could not confirm your submission. Please check your internet connection and try again.") => {
+            resetSubmitButton();
+            showErrorPopup(message);
+        };
+
         submissionFrame.addEventListener("load", () => {
             if (!isSubmitting) return;
-
             resetSubmitButton();
             showSuccessPopup();
         });
 
-        window.addEventListener("message", (event) => {
-            const result = event.data;
+        summaryForm.addEventListener("submit", (event) => {
+            event.preventDefault();
 
-            if (event.source !== submissionFrame.contentWindow || !result || result.source !== "chemngo-summary") {
+            const nameInput = document.getElementById("submitName");
+            const gradeInput = document.getElementById("submitGrade");
+            const sectionInput = document.getElementById("submitSection");
+
+            const name = nameInput ? nameInput.value.trim() : "";
+            const grade = gradeInput ? gradeInput.value.trim() : "";
+            const section = sectionInput ? sectionInput.value.trim() : "";
+
+            if (!name || !grade || !section) {
+                showErrorPopup("Your summary is incomplete. Please make sure your name, grade, and section are filled in.");
                 return;
             }
 
-            if (!isSubmitting) return;
-
-            resetSubmitButton();
-            if (result.result === "success") {
-                showSuccessPopup();
-            } else {
-                alert("We could not submit your summary. Please check your internet connection and try again.");
-            }
-        });
-
-        summaryForm.addEventListener("submit", (event) => {
             const shouldSubmit = confirm(
-                "Your summary will be sent using an internet connection. This may take a few seconds or minutes to finish. Do you want to continue?"
+                "Your summary will be sent using an internet connection. This may take a few seconds. Do you want to continue?"
             );
 
             if (!shouldSubmit) {
-                event.preventDefault();
                 return;
             }
 
             if (!navigator.onLine) {
-                event.preventDefault();
-                alert("You appear to be offline. Please connect to the internet and try again.");
+                showErrorPopup("You appear to be offline. Please connect to the internet and try again.");
                 return;
             }
 
             submitButton.disabled = true;
-            submitButton.textContent = "Submitting...";
+            submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
             isSubmitting = true;
+            showLoadingModal();
+
             submitTimeout = setTimeout(() => {
-                resetSubmitButton();
-                alert("We could not confirm your submission. Please check your internet connection and try again.");
-            }, 120000);
+                triggerSubmissionError();
+            }, 15000);
+
+            summaryForm.submit();
         });
     }
 
