@@ -133,11 +133,45 @@ function updateUI(progress) {
 }
 
 function setupEventListeners(progress) {
-    document.querySelectorAll(".lesson-card.unlocked").forEach(card => {
-        card.addEventListener("click", () => handleLessonClick(card.dataset.lesson, progress));
+    document.querySelectorAll(".lesson-card").forEach(card => {
+        const lessonIndex = Number(card.dataset.lesson) - 1;
+        let skipButton = card.querySelector(".mission4-skip-btn");
+        if (!skipButton) {
+            skipButton = document.createElement("button");
+            skipButton.type = "button";
+            skipButton.className = "mission4-skip-btn";
+            skipButton.textContent = "Skip for testing";
+            skipButton.addEventListener("click", event => {
+                event.stopPropagation();
+                progress.lessons[lessonIndex] = true;
+                saveMissionProgress(progress);
+                initializeMission();
+            });
+            card.appendChild(skipButton);
+        }
+
+        if (card.classList.contains("unlocked")) {
+            card.addEventListener("click", () => handleLessonClick(card.dataset.lesson, progress));
+        }
     });
 
-    document.getElementById("quizButton").addEventListener("click", function() {
+    const quizCard = document.getElementById("quizCard");
+    const quizButton = document.getElementById("quizButton");
+    let quizSkipButton = quizCard.querySelector(".mission4-skip-btn");
+    if (!quizSkipButton) {
+        quizSkipButton = document.createElement("button");
+        quizSkipButton.type = "button";
+        quizSkipButton.className = "mission4-skip-btn";
+        quizSkipButton.textContent = "Skip for testing";
+        quizSkipButton.addEventListener("click", () => {
+            progress.quizCompleted = true;
+            saveMissionProgress(progress);
+            initializeMission();
+        });
+        quizCard.appendChild(quizSkipButton);
+    }
+
+    quizButton.addEventListener("click", function() {
         if (!this.disabled) {
             startQuiz();
         }
