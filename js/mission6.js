@@ -56,10 +56,10 @@ function showMissionCompleteModal() {
         <div class="mission-complete-backdrop"></div>
         <div class="mission-complete-card">
             <div class="confetti-wrap">${confetti}</div>
-            <div class="badge-icon"><i class="fa-solid fa-medal"></i></div>
+            <div class="badge-icon"><img src="assets/badges/badge6.png" alt="CHEM Explorer Badge" /></div>
             <p class="eyebrow">Mission complete</p>
             <h3>Badge unlocked</h3>
-            <p class="badge-message">You earned a chemistry badge. Keep exploring and unlock the next mission!</p>
+            <p class="badge-message">You earned the CHEM Explorer badge. Keep exploring and unlock the next mission!</p>
             <button class="mission-complete-btn">Continue</button>
         </div>
     `;
@@ -188,7 +188,22 @@ function handleLessonClick(lessonNumber, progress) {
 
 function updateOverallProgress() {
     let overallProgress = JSON.parse(localStorage.getItem("progress"));
-    if (!overallProgress) return;
+
+    if (!overallProgress) {
+        overallProgress = {
+            completedMissions: [],
+            completed: 0,
+            total: 6,
+            currentMission: 1,
+            missionTitle: "Spot the Change",
+            xp: 0,
+            streak: 3
+        };
+    }
+
+    if (!Array.isArray(overallProgress.completedMissions)) {
+        overallProgress.completedMissions = [];
+    }
 
     const missionAlreadyCompleted = overallProgress.completedMissions.includes(MISSION_ID);
 

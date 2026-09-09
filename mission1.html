@@ -11,10 +11,10 @@
     <title>Mission 1 | Spot the Change</title>
 
     <link rel="stylesheet"
-          href="css/mission.css">
+          href="css/mission.css?v=20260819-1">
 
-    <link rel="stylesheet" href="css/fonts.css">
-    <link rel="stylesheet" href="css/fontawesome.min.css">
+    <link rel="stylesheet" href="css/fonts.css?v=20260819-1">
+    <link rel="stylesheet" href="css/fontawesome.min.css?v=20260819-1">
 
 </head>
 
@@ -89,30 +89,36 @@
 
         <div class="lesson-card unlocked" data-lesson="1">
 
-            <div class="lesson-number">
+            <div class="lesson-main">
+                <div class="lesson-number">
 
-                1
+                    1
 
+                </div>
+
+                <div class="lesson-info">
+
+                    <h4>
+
+                        What is Chemistry in Everyday Life?
+
+                    </h4>
+
+                    <p>
+
+                        Chemistry explains how matter changes in cooking, rusting, digestion, and even in the air around us.
+
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-chevron-right"></i>
             </div>
 
-            <div class="lesson-info">
-
-                <h4>
-
-                    What is Chemistry in Everyday Life?
-
-                </h4>
-
-                <p>
-
-                    Chemistry around us, everyday examples,
-                    and why chemical reactions matter.
-
-                </p>
-
+            <div class="lesson-details" hidden>
+                <p>Chemistry is the study of matter and the changes it undergoes. It explains what happens when food cooks, when metals rust, and when cells break down nutrients in your body. Everyday processes such as baking bread, boiling water, and breathing all involve chemical changes.</p>
+                <button class="complete-btn" data-type="lesson" data-index="0">Mark as complete</button>
             </div>
-
-            <i class="fa-solid fa-chevron-right"></i>
 
         </div>
 
@@ -120,30 +126,36 @@
 
         <div class="lesson-card locked" data-lesson="2">
 
-            <div class="lesson-number">
+            <div class="lesson-main">
+                <div class="lesson-number">
 
-                2
+                    2
 
+                </div>
+
+                <div class="lesson-info">
+
+                    <h4>
+
+                        Physical Change vs Chemical Change
+
+                    </h4>
+
+                    <p>
+
+                        A physical change alters appearance, while a chemical change creates a new substance with different properties.
+
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-lock"></i>
             </div>
 
-            <div class="lesson-info">
-
-                <h4>
-
-                    Physical Change vs Chemical Change
-
-                </h4>
-
-                <p>
-
-                    Learn the differences through
-                    real-life examples.
-
-                </p>
-
+            <div class="lesson-details" hidden>
+                <p>A physical change changes the form or appearance of a substance without creating a new one. Examples include melting ice, crushing a can, and dissolving sugar in water. A chemical change forms a new substance with different properties, such as rusting iron, burning paper, or baking a cake.</p>
+                <button class="complete-btn" data-type="lesson" data-index="1">Mark as complete</button>
             </div>
-
-            <i class="fa-solid fa-lock"></i>
 
         </div>
 
@@ -151,30 +163,36 @@
 
         <div class="lesson-card locked" data-lesson="3">
 
-            <div class="lesson-number">
+            <div class="lesson-main">
+                <div class="lesson-number">
 
-                3
+                    3
 
+                </div>
+
+                <div class="lesson-info">
+
+                    <h4>
+
+                        Signs of a Chemical Reaction
+
+                    </h4>
+
+                    <p>
+
+                        Gas production, color change, temperature change, and precipitate formation can signal a chemical reaction.
+
+                    </p>
+
+                </div>
+
+                <i class="fa-solid fa-lock"></i>
             </div>
 
-            <div class="lesson-info">
-
-                <h4>
-
-                    Signs of a Chemical Reaction
-
-                </h4>
-
-                <p>
-
-                    Identify observable evidence
-                    of chemical changes.
-
-                </p>
-
+            <div class="lesson-details" hidden>
+                <p>Scientists look for clues such as bubbles, a color change, heat or cold, sound, or a solid appearing in a liquid. These signs suggest that a chemical reaction is taking place and new substances are being formed. Rusting, digestion, and combustion are all examples of such reactions.</p>
+                <button class="complete-btn" data-type="lesson" data-index="2">Mark as complete</button>
             </div>
-
-            <i class="fa-solid fa-lock"></i>
 
         </div>
 
@@ -194,43 +212,78 @@
         
         <div class="activity-card locked" data-activity="1">
 
-            <i class="fa-solid fa-flask"></i>
+            <div class="activity-main">
+                <i class="fa-solid fa-flask"></i>
 
-            Tap if Physical or Chemical
+                <div>
+                    <strong>Sort It Out</strong>
+                    <small>Classify melting ice, burning paper, and rusting iron.</small>
+                </div>
 
-            <span>
+                <span>
 
-                Locked
+                    Locked
 
-            </span>
+                </span>
+            </div>
+
+            <div class="activity-details" hidden>
+                <p>Look at each event and decide whether it is a physical or chemical change. Use the clues: if a new substance forms, it is a chemical change. If only the appearance changes, it is a physical change.</p>
+
+                <div class="drag-sort-game" id="drag-sort-activity-1"></div>
+
+                <button class="complete-btn" data-type="activity" data-index="0">Mark as complete</button>
+            </div>
 
         </div>
 
         <div class="activity-card locked" data-activity="2">
 
-            <i class="fa-solid fa-image"></i>
+            <div class="activity-main">
+                <i class="fa-solid fa-image"></i>
 
-            Before and After Pictures
+                <div>
+                    <strong>Before and After</strong>
+                    <small>Look at everyday changes and decide what was created.</small>
+                </div>
 
-            <span>
+                <span>
 
-                Locked
+                    Locked
 
-            </span>
+                </span>
+            </div>
+
+            <div class="activity-details" hidden>
+                <p>Compare the before and after state of objects such as ice turning to water, milk turning sour, or flour being mixed into dough. Decide whether the process changed only appearance or created something chemically different.</p>
+
+                <div class="before-after-game" id="before-after-activity-1"></div>
+            </div>
 
         </div>
 
         <div class="activity-card locked" data-activity="3">
 
-            <i class="fa-solid fa-check-circle"></i>
+            <div class="activity-main">
+                <i class="fa-solid fa-check-circle"></i>
 
-            True or False
+                <div>
+                    <strong>Evidence Hunt</strong>
+                    <small>Find the signs that show a new substance was formed.</small>
+                </div>
 
-            <span>
+                <span>
 
-                Locked
+                    Locked
 
-            </span>
+                </span>
+            </div>
+
+            <div class="activity-details" hidden>
+                <p>Search for clues such as bubbles, temperature changes, or color shifts. If the reaction gives off gas or creates a solid, you are likely seeing evidence of a chemical change.</p>
+
+                <div class="evidence-hunt-game" id="evidence-hunt-activity-1"></div>
+            </div>
 
         </div>
 
@@ -338,7 +391,7 @@
 
     </section>
 
-    <script src="js/mission1.js"></script>
+    <script src="js/mission1.js?v=20260819-1"></script>
 
 </body>
 
