@@ -162,7 +162,6 @@ function setupEventListeners(progress) {
 
 function handleLessonClick(lessonNumber, progress) {
     const index = parseInt(lessonNumber) - 1;
-    alert(`Opening Lesson ${lessonNumber}...`);
     if (confirm(`Mark Lesson ${lessonNumber} as complete?`)) {
         progress.lessons[index] = true;
         saveMissionProgress(progress);
@@ -172,7 +171,6 @@ function handleLessonClick(lessonNumber, progress) {
 
 function handleActivityClick(activityNumber, progress) {
     const index = parseInt(activityNumber) - 1;
-    alert(`Opening Activity ${activityNumber}...`);
     if (confirm(`Mark Activity ${activityNumber} as complete?`)) {
         progress.activities[index] = true;
         saveMissionProgress(progress);

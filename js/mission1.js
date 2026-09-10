@@ -1785,17 +1785,6 @@ function startQuiz() {
     renderQuizQuestion();
 }
 
-/* 
-   This function can be added to a "Reset Progress" button for testing purposes.
-   It's not wired up to any UI element by default.
-*/
-function resetMission1Progress() {
-    if (confirm("Reset progress for Mission 1?")) {
-        localStorage.removeItem(`mission${MISSION_ID}_progress`);
-        location.reload();
-    }
-}
-
 /*
   The back button was using history.back() which could exit the app
   if the user navigated directly. Pointing to home.html is safer.
