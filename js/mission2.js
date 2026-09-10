@@ -12,6 +12,7 @@ function initializeMission() {
     const progress = getMissionProgress();
     updateUI(progress);
     setupEventListeners(progress);
+    setupLessonImageZoom();
 }
 
 function getMissionProgress() {
@@ -26,6 +27,26 @@ function getMissionProgress() {
         localStorage.setItem(`mission${MISSION_ID}_progress`, JSON.stringify(progress));
     }
     return progress;
+}
+
+function setupLessonImageZoom() {
+    document.querySelectorAll(".lesson-image").forEach(image => {
+        image.onclick = () => {
+            const modal = document.createElement("div");
+            modal.className = "lesson-image-modal";
+            modal.innerHTML = `
+                <button class="lesson-image-close" type="button" aria-label="Close enlarged image">&times;</button>
+                <img src="${image.src}" alt="${image.alt}">
+            `;
+            document.body.appendChild(modal);
+
+            const closeModal = () => modal.remove();
+            modal.addEventListener("click", event => {
+                if (event.target === modal) closeModal();
+            });
+            modal.querySelector(".lesson-image-close").addEventListener("click", closeModal);
+        };
+    });
 }
 
 function saveMissionProgress(progress) {
@@ -273,7 +294,7 @@ document.querySelector('.back-btn').onclick = () => {
 };
 
 const MISSION2_QUIZ_COUNT = 15;
-const MISSION2_PASSING_SCORE = 12;
+const MISSION2_PASSING_SCORE = 13;
 let mission2QuizState = null;
 
 const mission2QuizBank = [
@@ -537,7 +558,7 @@ function renderFlashcards(container) {
 function renderTapToReveal(container) {
     if (!container) return;
     container.innerHTML = `
-        <p class="activity-instruction">Enter the reaction type for each pattern, then check your answer. You need at least 4 out of 5 correct.</p>
+        <p class="activity-instruction">Enter the reaction type for each pattern, then check your answer. You need 5 out of 5 correct.</p>
         <div class="tap-reveal-list">
             ${reactionActivities.tapToReveal.map((item, index) => `
                 <div class="tap-reveal-item">
@@ -554,10 +575,12 @@ function renderTapToReveal(container) {
             `).join("")}
         </div>
         <p class="activity-feedback" aria-live="polite"></p>
+        <button class="activity-reset-btn" type="button">Reset activity</button>
         <button class="activity-complete-btn" type="button" disabled>Complete activity</button>
     `;
     const items = [...container.querySelectorAll(".tap-reveal-item")];
     const feedback = container.querySelector(".activity-feedback");
+    const resetButton = container.querySelector(".activity-reset-btn");
     const completeButton = container.querySelector(".activity-complete-btn");
     let checkedCount = 0;
     let score = 0;
@@ -592,10 +615,10 @@ function renderTapToReveal(container) {
             feedback.textContent = `${score} / ${checkedCount} correct`;
 
             if (checkedCount === items.length) {
-                feedback.textContent = score >= 4
+                feedback.textContent = score === items.length
                     ? `You scored ${score}/5. You can proceed to the next activity.`
-                    : `You scored ${score}/5. You need at least 4/5 to proceed.`;
-                completeButton.disabled = score < 4;
+                    : `You scored ${score}/5. You need 5/5 to proceed.`;
+                completeButton.disabled = score < items.length;
             }
         });
         revealButton.addEventListener("click", event => {
@@ -605,6 +628,7 @@ function renderTapToReveal(container) {
             item.classList.add("revealed");
         });
     });
+    resetButton.addEventListener("click", () => renderTapToReveal(container));
     completeButton.addEventListener("click", () => completeActivity(1));
 }
 
@@ -620,11 +644,13 @@ function renderGuessTheReaction(container) {
         const shuffledChoices = [...choices].sort(() => Math.random() - 0.5);
         container.innerHTML = `
             <p class="activity-instruction">Choose the reaction type for this equation.</p>
+            <button class="activity-reset-btn" type="button">Reset activity</button>
             <div class="guess-question"><span>Question ${questionIndex + 1} of ${questions.length}</span><strong>${item.equation}</strong></div>
             <div class="guess-options">${shuffledChoices.map(choice => `<button class="guess-choice" type="button">${choice}</button>`).join("")}</div>
             <p class="activity-feedback" aria-live="polite"></p>
         `;
         const feedback = container.querySelector(".activity-feedback");
+        container.querySelector(".activity-reset-btn").addEventListener("click", () => renderGuessTheReaction(container));
         container.querySelectorAll(".guess-choice").forEach(button => button.addEventListener("click", () => {
             const isCorrect = button.textContent === item.answer;
             if (isCorrect) score++;
@@ -644,20 +670,20 @@ function renderGuessTheReaction(container) {
                 if (questionIndex < reactionActivities.guess.length) {
                     renderQuestion();
                 } else {
-                    const passed = score >= 4;
+                    const passed = score === questions.length;
                     container.innerHTML = `
                         <div class="activity-summary">
                             <h4>${passed ? "Guess the Reaction complete!" : "Keep practicing"}</h4>
-                            <p>You scored <strong>${score}/${questions.length}</strong>. ${passed ? "You can proceed to the next activity." : "You need at least 4/5 to proceed."}</p>
+                            <p>You scored <strong>${score}/${questions.length}</strong>. ${passed ? "You can proceed to the next activity." : "You need 5/5 to proceed."}</p>
+                            <button class="activity-reset-btn retry-guess-btn" type="button">Reset activity</button>
                             ${passed
                                 ? '<button class="activity-complete-btn" type="button">Complete activity</button>'
-                                : '<button class="activity-next-btn retry-guess-btn" type="button">Try again</button>'}
+                                : ''}
                         </div>
                     `;
+                    container.querySelector(".retry-guess-btn").addEventListener("click", () => renderGuessTheReaction(container));
                     if (passed) {
                         container.querySelector(".activity-complete-btn").addEventListener("click", () => completeActivity(2));
-                    } else {
-                        container.querySelector(".retry-guess-btn").addEventListener("click", () => renderGuessTheReaction(container));
                     }
                 }
             });

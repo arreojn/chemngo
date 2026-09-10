@@ -67,11 +67,11 @@
     <div class="quiz-box">
         <div id="quiz-header">
             <h3>Mission 4 Quiz: Case Files</h3>
-            <p>Question <span id="question-number">1</span> of <span id="total-questions">10</span></p>
+            <p>Case <span id="question-number">1</span> of <span id="total-questions">5</span></p>
         </div>
 
         <div id="question-container">
-            <p id="question-text">Case file text will load here.</p>
+            <div id="question-text">Case file text will load here.</div>
         </div>
 
         <div id="options-container">
@@ -82,7 +82,7 @@
 
         <div id="quiz-result" style="display: none;">
             <h4>Case Closed!</h4>
-            <p>Your Score: <span id="score">0</span>/<span id="total-questions-result">10</span></p>
+            <p>Your Score: <span id="score">0</span>/<span id="total-questions-result">5</span></p>
             <p id="result-message"></p>
             <div class="xp-reward">+250 XP</div>
             <button id="finish-mission-btn">Finish Mission</button>
@@ -184,6 +184,216 @@
 
 </section>
 
+<!--================ PHOTO INVESTIGATION ================-->
+<section class="content photo-investigation-section" id="photoInvestigation" hidden aria-labelledby="photoInvestigationTitle">
+
+    <div class="photo-case-file">
+
+        <div class="photo-case-file-header">
+
+            <div>
+
+                <p class="photo-case-eyebrow" id="photoCaseCounter">Set 1 of 5</p>
+
+                <h3 id="photoInvestigationTitle">Photo Investigation</h3>
+
+                <h4 id="photoCaseTitle">Case title</h4>
+
+            </div>
+
+            <button type="button" class="photo-close-btn" id="closePhotoInvestigation" aria-label="Close Photo Investigation">
+
+                <i class="fa-solid fa-xmark"></i>
+
+                Close
+
+            </button>
+
+        </div>
+
+        <div id="photoCaseImages" class="photo-case-images" aria-label="Photo evidence images"></div>
+
+        <p class="photo-case-description" id="photoCaseDescription"></p>
+
+        <div class="photo-case-evidence-grid">
+
+            <section class="photo-case-panel" aria-labelledby="investigationTasksTitle">
+
+                <h5 id="investigationTasksTitle"><i class="fa-solid fa-magnifying-glass"></i> Investigation Tasks</h5>
+
+                <ol class="photo-case-list" id="photoCaseTasks"></ol>
+
+            </section>
+
+            <section class="photo-case-panel" aria-labelledby="evidenceChecklistTitle">
+
+                <h5 id="evidenceChecklistTitle"><i class="fa-solid fa-clipboard-check"></i> Evidence Checklist</h5>
+
+                <ul class="photo-case-list photo-checklist" id="photoCaseChecklist"></ul>
+
+            </section>
+
+        </div>
+
+        <button type="button" class="photo-report-btn" id="revealPhotoReport" aria-expanded="false" aria-controls="photoDetectiveReport" disabled>
+
+            Detective Report Available in 15s
+
+        </button>
+
+        <section class="photo-detective-report" id="photoDetectiveReport" hidden aria-live="polite">
+
+            <p class="photo-report-label">Case classification</p>
+
+            <h5 id="photoCaseReaction"></h5>
+
+            <p id="photoCaseExplanation"></p>
+
+            <p class="photo-case-equation" id="photoCaseEquation"></p>
+
+        </section>
+
+        <div class="photo-case-controls">
+
+            <button type="button" class="photo-nav-btn" id="previousPhotoCase">
+
+                <i class="fa-solid fa-arrow-left"></i>
+
+                Previous
+
+            </button>
+
+            <p class="photo-case-progress" id="photoCaseProgress" aria-live="polite"></p>
+
+            <button type="button" class="photo-nav-btn" id="nextPhotoCase">
+
+                Next
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </button>
+
+        </div>
+
+        <button type="button" class="photo-complete-btn" id="completePhotoInvestigation" disabled>
+
+            Review all evidence to close this case file
+
+        </button>
+
+    </div>
+
+</section>
+
+<!--================ KITCHEN DETECTIVE ================-->
+<section class="content kitchen-investigation-section" id="kitchenInvestigation" hidden aria-labelledby="kitchenInvestigationTitle">
+
+    <div class="kitchen-case-file">
+        <div class="kitchen-case-header">
+            <div>
+                <p class="photo-case-eyebrow">Investigation 2</p>
+                <h3 id="kitchenInvestigationTitle">Kitchen Detective</h3>
+                <p>Check every chemical reaction you can identify in the scene. Leave physical changes unchecked.</p>
+            </div>
+            <button type="button" class="photo-close-btn" id="closeKitchenInvestigation">Close</button>
+        </div>
+
+        <img class="kitchen-investigation-image" src="assets/mission4/detective.png" alt="Kitchen scene showing cooking, baking, boiling, ingredients, and food preparation">
+
+        <fieldset class="kitchen-reaction-list">
+            <legend>Which chemical reactions are present?</legend>
+            <label><input type="checkbox" value="combustion"> Combustion: the gas stove fuel burns and releases heat and light.</label>
+            <label><input type="checkbox" value="baking"> Baking: the cookie mixture changes into new substances as it cooks.</label>
+            <label><input type="checkbox" value="browning"> Browning: the cut banana is changing as it reacts with oxygen in the air.</label>
+            <label><input type="checkbox" value="boiling"> Boiling water: water changes state but remains water.</label>
+            <label><input type="checkbox" value="mixing"> Mixing milk and ingredients: the substances are only being combined physically.</label>
+        </fieldset>
+
+        <label class="kitchen-observation-label" for="kitchenObservation">Record one piece of evidence and explain why it shows a chemical reaction.</label>
+        <textarea id="kitchenObservation" class="kitchen-observation" rows="3" placeholder="Example: The blue flame shows fuel reacting with oxygen and releasing energy..."></textarea>
+
+        <p id="kitchenFeedback" class="kitchen-feedback" aria-live="polite"></p>
+        <div class="kitchen-actions">
+            <button type="button" class="photo-nav-btn" id="resetKitchenInvestigation">Reset</button>
+            <button type="button" class="photo-complete-btn" id="checkKitchenInvestigation">Check Investigation</button>
+        </div>
+    </div>
+</section>
+
+<!--================ SCHOOL DETECTIVE ================-->
+<section class="content school-investigation-section" id="schoolInvestigation" hidden aria-labelledby="schoolInvestigationTitle">
+
+    <div class="school-case-file">
+        <div class="school-case-header">
+            <div>
+                <p class="photo-case-eyebrow">Investigation 3</p>
+                <h3 id="schoolInvestigationTitle">School Detective</h3>
+                <p>Inspect the school scene and select every chemical reaction you can identify.</p>
+            </div>
+            <button type="button" class="photo-close-btn" id="closeSchoolInvestigation">Close</button>
+        </div>
+
+        <img class="school-investigation-image" src="assets/mission4/detective3.png" alt="School science scene with experiments, a candle, plants, rust, and cleaning materials">
+
+        <fieldset class="school-reaction-list">
+            <legend>Which chemical reactions are present?</legend>
+            <label><input type="checkbox" value="vinegar"> Baking soda and vinegar react and produce gas bubbles.</label>
+            <label><input type="checkbox" value="test-tube"> The purple test-tube investigation shows a chemical change being tested.</label>
+            <label><input type="checkbox" value="combustion"> The candle burns as its fuel reacts with oxygen and releases heat and light.</label>
+            <label><input type="checkbox" value="photosynthesis"> The plant uses light, water, and carbon dioxide to make food.</label>
+            <label><input type="checkbox" value="rust"> The rusty metal strip shows a new iron oxide substance formed.</label>
+            <label><input type="checkbox" value="cleaning"> Wiping the table with cleaner is automatically a chemical reaction.</label>
+            <label><input type="checkbox" value="mixing"> Arranging the books together creates a new substance.</label>
+        </fieldset>
+
+        <label class="school-observation-label" for="schoolObservation">Record one observation and explain why it is evidence of a chemical reaction.</label>
+        <textarea id="schoolObservation" class="school-observation" rows="3" placeholder="Example: The vinegar and baking soda make bubbles, showing that a gas formed..."></textarea>
+
+        <p id="schoolFeedback" class="school-feedback" aria-live="polite"></p>
+        <div class="school-actions">
+            <button type="button" class="photo-nav-btn" id="resetSchoolInvestigation">Reset</button>
+            <button type="button" class="photo-complete-btn" id="checkSchoolInvestigation">Check Investigation</button>
+        </div>
+    </div>
+</section>
+
+<!--================ COMMUNITY DETECTIVE ================-->
+<section class="content community-investigation-section" id="communityInvestigation" hidden aria-labelledby="communityInvestigationTitle">
+
+    <div class="community-case-file">
+        <div class="community-case-header">
+            <div>
+                <p class="photo-case-eyebrow">Investigation 4</p>
+                <h3 id="communityInvestigationTitle">Community Detective</h3>
+                <p>Inspect the community scene and select every chemical reaction you can identify.</p>
+            </div>
+            <button type="button" class="photo-close-btn" id="closeCommunityInvestigation">Close</button>
+        </div>
+
+        <img class="community-investigation-image" src="assets/mission4/detective4.png" alt="Community scene with grilling food, plants, recycling bins, running water, and rusty metal">
+
+        <fieldset class="community-reaction-list">
+            <legend>Which chemical reactions are present?</legend>
+            <label><input type="checkbox" value="grill-combustion"> The grill fuel burns and releases heat and light.</label>
+            <label><input type="checkbox" value="cooking"> The food changes color, smell, and texture as it cooks.</label>
+            <label><input type="checkbox" value="photosynthesis"> The plants use light, water, and carbon dioxide to make food.</label>
+            <label><input type="checkbox" value="rust"> The rusty metal surface shows corrosion formed a new substance.</label>
+            <label><input type="checkbox" value="water-flow"> Running water is automatically a chemical reaction.</label>
+            <label><input type="checkbox" value="recycling"> Sorting recyclable materials creates new substances.</label>
+            <label><input type="checkbox" value="cleaning"> Moving bags and picking up litter changes the substances chemically.</label>
+        </fieldset>
+
+        <label class="community-observation-label" for="communityObservation">Record one observation and explain why it is evidence of a chemical reaction.</label>
+        <textarea id="communityObservation" class="community-observation" rows="3" placeholder="Example: The grill flame shows fuel reacting with oxygen and releasing heat..."></textarea>
+
+        <p id="communityFeedback" class="community-feedback" aria-live="polite"></p>
+        <div class="community-actions">
+            <button type="button" class="photo-nav-btn" id="resetCommunityInvestigation">Reset</button>
+            <button type="button" class="photo-complete-btn" id="checkCommunityInvestigation">Check Investigation</button>
+        </div>
+    </div>
+</section>
+
 <!--================ MISSION CHECK ================-->
 
 <section class="content">
@@ -218,34 +428,6 @@
 
     </div>
 
-</section>
-
-<!--================ QUIZ CONTAINER ================-->
-<section class="content" id="quizContainer" style="display: none;">
-    <div class="quiz-box">
-        <div id="quiz-header">
-            <h3>Mission 4 Quiz: Case Files</h3>
-            <p>Question <span id="question-number">1</span> of <span id="total-questions">10</span></p>
-        </div>
-
-        <div id="question-container">
-            <p id="question-text">Case file text will load here.</p>
-        </div>
-
-        <div id="options-container">
-            <!-- Options will be generated by JS -->
-        </div>
-
-        <button id="next-question-btn">Next</button>
-
-        <div id="quiz-result" style="display: none;">
-            <h4>Case Closed!</h4>
-            <p>Your Score: <span id="score">0</span>/<span id="total-questions-result">10</span></p>
-            <p id="result-message"></p>
-            <div class="xp-reward">+250 XP</div>
-            <button id="finish-mission-btn">Finish Mission</button>
-        </div>
-    </div>
 </section>
 
 <!--================ REWARD ================-->
