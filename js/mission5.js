@@ -132,15 +132,53 @@ function updateUI(progress) {
 }
 
 function setupEventListeners(progress) {
-    document.querySelectorAll(".lesson-card.unlocked").forEach(card => {
-        card.addEventListener("click", () => handleLessonClick(card.dataset.lesson, progress));
+    document.querySelectorAll(".lesson-card").forEach(card => {
+        if (card.classList.contains("unlocked")) {
+            card.addEventListener("click", () => handleLessonClick(card.dataset.lesson, progress));
+        }
+
+        let testButton = card.querySelector(".mission5-test-btn");
+        if (!testButton) {
+            testButton = document.createElement("button");
+            testButton.type = "button";
+            testButton.className = "mission5-test-btn";
+            testButton.textContent = "Skip for testing";
+            card.appendChild(testButton);
+        }
+
+        testButton.disabled = Boolean(progress.lessons[Number(card.dataset.lesson) - 1]);
+        testButton.onclick = event => {
+            event.stopPropagation();
+            const currentProgress = getMissionProgress();
+            currentProgress.lessons[Number(card.dataset.lesson) - 1] = true;
+            saveMissionProgress(currentProgress);
+            initializeMission();
+        };
     });
 
-    document.getElementById("quizButton").addEventListener("click", function() {
+    const quizButton = document.getElementById("quizButton");
+    quizButton.addEventListener("click", function() {
         if (!this.disabled) {
             startQuiz();
         }
     });
+
+    let quizTestButton = document.querySelector(".mission5-quiz-test-btn");
+    if (!quizTestButton) {
+        quizTestButton = document.createElement("button");
+        quizTestButton.type = "button";
+        quizTestButton.className = "mission5-test-btn mission5-quiz-test-btn";
+        quizTestButton.textContent = "Complete for testing";
+        quizButton.insertAdjacentElement("afterend", quizTestButton);
+    }
+
+    quizTestButton.disabled = Boolean(progress.quizCompleted);
+    quizTestButton.onclick = () => {
+        const currentProgress = getMissionProgress();
+        currentProgress.quizCompleted = true;
+        saveMissionProgress(currentProgress);
+        initializeMission();
+    };
 }
 
 function handleLessonClick(lessonNumber, progress) {

@@ -562,6 +562,7 @@ function renderPhotoInvestigationCase() {
 
 function openPhotoInvestigation(progress) {
     const investigation = document.getElementById("photoInvestigation");
+    placeInvestigationAfterLesson("photoInvestigation", 1);
     activePhotoInvestigationProgress = progress;
     investigation.hidden = false;
     renderPhotoInvestigationCase();
@@ -579,6 +580,7 @@ function closePhotoInvestigation() {
 
 function openKitchenInvestigation(progress) {
     const investigation = document.getElementById("kitchenInvestigation");
+    placeInvestigationAfterLesson("kitchenInvestigation", 2);
     investigation.hidden = false;
     resetKitchenInvestigation();
     requestAnimationFrame(() => investigation.scrollIntoView({ behavior: "smooth", block: "start" }));
@@ -630,6 +632,7 @@ function checkKitchenInvestigation() {
 
 function openSchoolInvestigation() {
     const investigation = document.getElementById("schoolInvestigation");
+    placeInvestigationAfterLesson("schoolInvestigation", 3);
     investigation.hidden = false;
     resetSchoolInvestigation();
     requestAnimationFrame(() => investigation.scrollIntoView({ behavior: "smooth", block: "start" }));
@@ -681,6 +684,7 @@ function checkSchoolInvestigation() {
 
 function openCommunityInvestigation() {
     const investigation = document.getElementById("communityInvestigation");
+    placeInvestigationAfterLesson("communityInvestigation", 4);
     investigation.hidden = false;
     resetCommunityInvestigation();
     requestAnimationFrame(() => investigation.scrollIntoView({ behavior: "smooth", block: "start" }));
@@ -688,6 +692,18 @@ function openCommunityInvestigation() {
 
 function closeCommunityInvestigation() {
     document.getElementById("communityInvestigation").hidden = true;
+}
+
+function placeInvestigationAfterLesson(investigationId, lessonNumber) {
+    const investigation = document.getElementById(investigationId);
+    const lessonCard = document.querySelector(`.lesson-card[data-lesson="${lessonNumber}"]`);
+    if (investigation && lessonCard) {
+        ["photoInvestigation", "kitchenInvestigation", "schoolInvestigation", "communityInvestigation"].forEach(id => {
+            const panel = document.getElementById(id);
+            if (panel && id !== investigationId) panel.hidden = true;
+        });
+        lessonCard.insertAdjacentElement("afterend", investigation);
+    }
 }
 
 function resetCommunityInvestigation() {
@@ -896,24 +912,6 @@ function updateUI(progress) {
 
 function setupEventListeners(progress) {
     document.querySelectorAll(".lesson-card").forEach(card => {
-        const lessonIndex = Number(card.dataset.lesson) - 1;
-        let skipButton = card.querySelector(".mission4-skip-btn");
-        if (!skipButton) {
-            skipButton = document.createElement("button");
-            skipButton.type = "button";
-            skipButton.className = "mission4-skip-btn";
-            skipButton.textContent = "Skip for testing";
-            card.appendChild(skipButton);
-        }
-
-        skipButton.onclick = event => {
-            event.stopPropagation();
-            const currentProgress = getMissionProgress();
-            currentProgress.lessons[lessonIndex] = true;
-            saveMissionProgress(currentProgress);
-            initializeMission();
-        };
-
         card.onclick = card.classList.contains("unlocked")
             ? () => handleLessonClick(card.dataset.lesson, progress)
             : null;
@@ -921,21 +919,6 @@ function setupEventListeners(progress) {
 
     const quizCard = document.getElementById("quizCard");
     const quizButton = document.getElementById("quizButton");
-    let quizSkipButton = quizCard.querySelector(".mission4-skip-btn");
-    if (!quizSkipButton) {
-        quizSkipButton = document.createElement("button");
-        quizSkipButton.type = "button";
-        quizSkipButton.className = "mission4-skip-btn";
-        quizSkipButton.textContent = "Skip for testing";
-        quizCard.appendChild(quizSkipButton);
-    }
-
-    quizSkipButton.onclick = () => {
-        const currentProgress = getMissionProgress();
-        currentProgress.quizCompleted = true;
-        saveMissionProgress(currentProgress);
-        initializeMission();
-    };
 
     quizButton.onclick = function() {
         if (!this.disabled) {
@@ -1059,11 +1042,17 @@ let mission4AssessmentState = null;
 
 function startQuiz() {
     const quizContainer = document.getElementById("quizContainer");
+    const quizCard = document.getElementById("quizCard");
     const quizResult = document.getElementById("quiz-result");
     const questionContainer = document.getElementById("question-container");
     const optionsContainer = document.getElementById("options-container");
     const nextButton = document.getElementById("next-question-btn");
-    if (!quizContainer || !quizResult || !questionContainer || !optionsContainer || !nextButton) return;
+    if (!quizContainer || !quizCard || !quizResult || !questionContainer || !optionsContainer || !nextButton) return;
+
+    const quizSection = quizCard.closest(".content");
+    if (quizSection) {
+        quizSection.insertAdjacentElement("afterend", quizContainer);
+    }
 
     mission4AssessmentState = { currentIndex: 0, score: 0, answered: false };
     quizContainer.style.display = "block";
@@ -1073,7 +1062,10 @@ function startQuiz() {
     nextButton.style.display = "inline-flex";
     nextButton.onclick = submitMission4AssessmentCase;
     renderMission4AssessmentCase();
-    quizContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+    requestAnimationFrame(() => {
+        const assessmentTop = quizContainer.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top: Math.max(0, assessmentTop - 12), behavior: "smooth" });
+    });
 }
 
 function renderMission4AssessmentCase() {
