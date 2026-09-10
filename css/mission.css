@@ -721,6 +721,15 @@ body{
     background: #fbfdff;
 }
 
+.activity-details[hidden] {
+    display: none;
+}
+
+.activity-card:not(.expanded) .activity-details,
+.activity-card.locked .activity-details {
+    display: none;
+}
+
 .activity-instruction {
     margin: 0 0 14px;
     color: #49627f;
@@ -1459,6 +1468,7 @@ body{
 .evidence-hunt-choice:disabled,
 .evidence-hunt-boolean-btn:disabled,
 .evidence-hunt-submit-btn:disabled,
+.evidence-hunt-next-btn:disabled,
 .evidence-hunt-textarea:disabled {
     opacity: 0.72;
     cursor: default;
@@ -1483,6 +1493,20 @@ body{
     padding: 10px 16px;
     font-weight: 700;
     cursor: pointer;
+}
+
+.evidence-hunt-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.evidence-hunt-actions > button {
+    flex: 1;
+}
+
+.evidence-hunt-actions > button[hidden] {
+    display: none;
 }
 
 .evidence-hunt-submit-btn {

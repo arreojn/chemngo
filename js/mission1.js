@@ -907,6 +907,10 @@ function updateUI(progress) {
         activity.classList.toggle("unlocked", isUnlocked);
         activity.classList.toggle("locked", !isUnlocked);
 
+        if (!isUnlocked) {
+            activity.classList.remove("expanded");
+        }
+
         if (statusLabel) {
             statusLabel.textContent = isCompleted ? "Done" : isUnlocked ? "Start" : "Locked";
         }
@@ -1004,7 +1008,7 @@ function setupEventListeners(progress) {
                 const isExpanded = card.classList.contains("expanded");
                 card.classList.toggle("expanded", !isExpanded);
                 if (activityDetails) {
-                    activityDetails.hidden = isExpanded;
+                    activityDetails.hidden = !card.classList.contains("expanded");
                 }
 
                 if (card.dataset.activity === "1" && !card.classList.contains("expanded")) {
@@ -1526,7 +1530,7 @@ function renderMission1EvidenceHuntActivity() {
 
         container.innerHTML = `
             <div class="evidence-hunt-intro">
-                <strong>EVIDENCE HUNT</strong>
+                <strong class="evidence-hunt-title" tabindex="-1">EVIDENCE HUNT</strong>
                 <p>Look carefully at each Before-and-After image. Find the evidence that tells you whether a new substance was formed.</p>
             </div>
 
@@ -1541,7 +1545,7 @@ function renderMission1EvidenceHuntActivity() {
                 </div>
 
                 <div class="evidence-hunt-question-block">
-                    <p class="evidence-hunt-question">What evidence do you observe?</p>
+                    <p class="evidence-hunt-question" tabindex="-1">What evidence do you observe?</p>
                     <div class="evidence-hunt-options" data-part="evidence">
                         ${(currentItem.shuffledChoices || currentItem.evidenceChoices).map(option => `
                             <button type="button" class="evidence-hunt-choice ${currentResult.evidence === option ? "selected" : ""}" data-value="${option}">${option}</button>
@@ -1562,7 +1566,10 @@ function renderMission1EvidenceHuntActivity() {
                     <textarea class="evidence-hunt-textarea" rows="3" placeholder="Write a brief explanation...">${currentResult.explanation || ""}</textarea>
                 </div>
 
-                <button type="button" class="evidence-hunt-submit-btn">Submit Answer</button>
+                <div class="evidence-hunt-actions">
+                    <button type="button" class="evidence-hunt-submit-btn">Submit Answer</button>
+                    <button type="button" class="evidence-hunt-next-btn" disabled>${currentIndex === selectedItems.length - 1 ? "View Results" : "Next Question"}</button>
+                </div>
                 <p class="evidence-hunt-feedback" aria-live="polite"></p>
             </div>
         `;
@@ -1571,6 +1578,7 @@ function renderMission1EvidenceHuntActivity() {
         const newSubstanceButtons = container.querySelectorAll(".evidence-hunt-boolean-btn");
         const textarea = container.querySelector(".evidence-hunt-textarea");
         const submitButton = container.querySelector(".evidence-hunt-submit-btn");
+        const nextButton = container.querySelector(".evidence-hunt-next-btn");
         const feedback = container.querySelector(".evidence-hunt-feedback");
 
         evidenceButtons.forEach(button => {
@@ -1627,19 +1635,19 @@ function renderMission1EvidenceHuntActivity() {
             newSubstanceButtons.forEach(btn => btn.disabled = true);
             textarea.disabled = true;
 
-            const nextButton = document.createElement("button");
-            nextButton.type = "button";
-            nextButton.className = "evidence-hunt-next-btn";
             nextButton.textContent = currentIndex === selectedItems.length - 1 ? "View Results" : "Next Question";
+            nextButton.disabled = false;
             nextButton.addEventListener("click", () => {
                 currentIndex += 1;
                 renderQuestion();
+                requestAnimationFrame(() => {
+                    const evidenceHuntTitle = container.querySelector(".evidence-hunt-title");
+                    if (evidenceHuntTitle) {
+                        evidenceHuntTitle.focus({ preventScroll: true });
+                        evidenceHuntTitle.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                });
             });
-
-            const actionWrap = container.querySelector(".evidence-hunt-card");
-            if (actionWrap && !actionWrap.querySelector(".evidence-hunt-next-btn")) {
-                actionWrap.appendChild(nextButton);
-            }
         });
     }
 
