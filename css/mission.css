@@ -2008,6 +2008,178 @@ body{
     font-weight: 800;
 }
 
+.reaction-match-game {
+    margin-top: 14px;
+    padding: 14px;
+    border: 1px solid #dfeaf8;
+    border-radius: 16px;
+    background: #f5f9ff;
+}
+
+.reaction-match-board {
+    display: grid;
+    grid-template-columns: minmax(150px, .8fr) minmax(260px, 1.2fr);
+    gap: 12px;
+    align-items: start;
+}
+
+.reaction-match-types {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: auto repeat(5, 76px);
+    gap: 8px;
+}
+
+.reaction-match-images {
+    min-width: 0;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-self: start;
+}
+
+.reaction-match-board h5 {
+    margin: 0;
+    color: #214f8d;
+    font-size: 12px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.reaction-match-zone {
+    min-height: 0;
+    height: 76px;
+    padding: 8px;
+    border: 2px dashed #bfd6ff;
+    border-radius: 10px;
+    background: #fff;
+    color: #17345f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    transition: background .18s ease, border-color .18s ease;
+}
+
+.reaction-match-zone.over,
+.reaction-match-zone:focus {
+    border-color: #3d82ff;
+    background: #edf4ff;
+    outline: none;
+}
+
+.reaction-match-bank {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 76px);
+    gap: 8px;
+    align-content: start;
+}
+
+.reaction-match-item {
+    min-width: 0;
+    height: 76px;
+    padding: 7px;
+    border: 2px solid #c8d9f0;
+    border-radius: 10px;
+    background: #fff;
+    color: #30445f;
+    cursor: grab;
+    font-size: 11px;
+    line-height: 1.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+}
+
+.reaction-match-item img {
+    display: block;
+    flex: 0 1 100%;
+    width: 100%;
+    max-width: 260px;
+    height: 68px;
+    margin: 0;
+    object-fit: contain;
+    border-radius: 7px;
+}
+
+.reaction-match-item.selected,
+.reaction-match-item:focus {
+    border-color: #3d82ff;
+    box-shadow: 0 0 0 3px rgba(61, 130, 255, .18);
+    outline: none;
+}
+
+.reaction-match-item.dragging {
+    opacity: .55;
+}
+
+.reaction-match-item.missing-image img {
+    display: none;
+}
+
+.reaction-match-zone .reaction-match-item {
+    width: 100%;
+    height: 62px;
+    min-height: 0;
+    padding: 4px 8px;
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.reaction-match-zone .reaction-match-item img {
+    max-width: 130px;
+    height: 54px;
+}
+
+.reaction-match-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+    flex-wrap: wrap;
+}
+
+.reaction-match-check,
+.reaction-match-reset {
+    border: 0;
+    border-radius: 9px;
+    padding: 9px 13px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.reaction-match-check {
+    background: #2675d8;
+    color: #fff;
+}
+
+.reaction-match-reset {
+    background: #e8eefc;
+    color: #204d8f;
+}
+
+.reaction-match-feedback {
+    min-height: 20px;
+    margin: 10px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.reaction-match-feedback.success {
+    color: #16734a;
+}
+
+.reaction-match-feedback.error {
+    color: #b23b3b;
+}
+
 @media (max-width: 620px) {
     .reaction-options {
         grid-template-columns: 1fr;
@@ -2015,6 +2187,53 @@ body{
 
     .reaction-options legend {
         margin-bottom: 4px;
+    }
+
+    .reaction-match-board {
+        grid-template-columns: minmax(108px, .85fr) minmax(0, 1.15fr);
+        gap: 8px;
+    }
+
+    .reaction-match-images,
+    .reaction-match-bank {
+        height: auto;
+        min-height: 0;
+    }
+
+    .reaction-match-types {
+        grid-template-rows: auto repeat(5, 68px);
+    }
+
+    .reaction-match-bank {
+        grid-template-rows: repeat(5, 68px);
+    }
+
+    .reaction-match-zone,
+    .reaction-match-item {
+        height: 68px;
+        padding: 5px;
+    }
+
+    .reaction-match-zone {
+        font-size: 11px;
+        overflow-wrap: anywhere;
+    }
+
+    .reaction-match-item img {
+        flex-basis: 100%;
+        width: 100%;
+        max-width: 180px;
+        height: 58px;
+    }
+
+    .reaction-match-zone .reaction-match-item {
+        height: 58px;
+        padding: 3px 6px;
+    }
+
+    .reaction-match-zone .reaction-match-item img {
+        max-width: 110px;
+        height: 50px;
     }
 }
 

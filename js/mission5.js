@@ -6,7 +6,7 @@ const MISSION_ID = 5;
 
 const nameThatReactionItems = [
     { image: "namethatreact1.png", description: "Two substances combine into one product", answer: "Combination" },
-    { image: "namethatreact2.png", description: "A bicycle chain develops rust", answer: "Combination (Oxidation)" },
+    { image: "namethatreact2.png", description: "A bicycle chain develops rust", answer: "Combination" },
     { image: "namethatreact3.png", description: "Bread rises while it bakes", answer: "Decomposition" },
     { image: "namethatreact4.png", description: "A banana turns black as it spoils", answer: "Decomposition" },
     { image: "namethatreact5.png", description: "Hydrogen peroxide bubbles on a cut", answer: "Decomposition" },
@@ -19,7 +19,22 @@ const nameThatReactionItems = [
 
 const reactionAnswers = [
     "Combination",
-    "Combination (Oxidation)",
+    "Decomposition",
+    "Single Displacement",
+    "Double Displacement",
+    "Combustion"
+];
+
+const reactionMatchItems = [
+    { image: "reactmatch1.png", description: "Bicycle frame rusting in the rain", answer: "Combination" },
+    { image: "reactmatch2.png", description: "Fallen leaves decomposing on the ground", answer: "Decomposition" },
+    { image: "reactmatch3.png", description: "Copper coin in silver nitrate solution with silver crystals forming", answer: "Single Displacement" },
+    { image: "reactmatch4.png", description: "Two clear liquids create a yellow solid", answer: "Double Displacement" },
+    { image: "reactmatch5.png", description: "Campfire burning wood", answer: "Combustion" }
+];
+
+const reactionMatchTypes = [
+    "Combination",
     "Decomposition",
     "Single Displacement",
     "Double Displacement",
@@ -42,6 +57,7 @@ function initializeMission() {
     updateUI(progress);
     setupEventListeners(progress);
     renderNameThatReactionGame();
+    renderReactionMatchGame();
 }
 
 function getMissionProgress() {
@@ -165,6 +181,7 @@ function setupEventListeners(progress) {
     document.querySelectorAll(".lesson-card").forEach(card => {
         const lessonMain = card.querySelector(".lesson-main");
         const lessonDetails = card.querySelector(".lesson-details");
+        const lessonIndex = Number(card.dataset.lesson) - 1;
 
         if (lessonMain) {
             lessonMain.onclick = () => {
@@ -183,6 +200,25 @@ function setupEventListeners(progress) {
                 }
             };
         }
+
+        let testButton = card.querySelector(".mission5-lesson-test-btn");
+        if (!testButton) {
+            testButton = document.createElement("button");
+            testButton.type = "button";
+            testButton.className = "mission5-test-btn mission5-lesson-test-btn";
+            testButton.textContent = "Skip for testing";
+            card.appendChild(testButton);
+        }
+
+        testButton.disabled = Boolean(progress.lessons[lessonIndex]);
+        testButton.onclick = event => {
+            event.stopPropagation();
+            const currentProgress = getMissionProgress();
+            currentProgress.lessons[lessonIndex] = true;
+            saveMissionProgress(currentProgress);
+            reactionGameState = { order: [], index: 0, score: 0, answered: false };
+            initializeMission();
+        };
     });
 
     const quizButton = document.getElementById("quizButton");
@@ -315,6 +351,140 @@ function renderNameThatReactionGame() {
             feedback.className = "reaction-feedback error";
         }
     });
+}
+
+function renderReactionMatchGame() {
+    const container = document.getElementById("reaction-match-game");
+    if (!container) return;
+
+    const progress = getMissionProgress();
+    if (progress.lessons[1]) {
+        container.innerHTML = '<p class="reaction-game-complete"><i class="fa-solid fa-circle-check"></i> Reaction Match complete.</p>';
+        return;
+    }
+
+    const randomizedItems = shuffleArray(reactionMatchItems);
+    container.innerHTML = `
+        <div class="reaction-match-board">
+            <div class="reaction-match-types">
+                <h5>Reaction type</h5>
+                ${reactionMatchTypes.map(type => `
+                    <div class="reaction-match-zone" data-answer="${type}" tabindex="0">
+                        <span>${type}</span>
+                    </div>
+                `).join("")}
+            </div>
+            <div class="reaction-match-images">
+                <h5>Images</h5>
+                <div class="reaction-match-bank">
+                    ${randomizedItems.map(item => `
+                        <div class="reaction-match-item" draggable="true" data-answer="${item.answer}" data-image="${item.image}" tabindex="0">
+                            <img src="assets/mission5/${item.image}" alt="${item.description}">
+                        </div>
+                    `).join("")}
+                </div>
+            </div>
+        </div>
+        <div class="reaction-match-actions">
+            <button type="button" class="reaction-match-check">Check matches</button>
+            <button type="button" class="reaction-match-reset">Reset</button>
+        </div>
+        <p class="reaction-match-feedback" aria-live="polite"></p>
+    `;
+
+    const feedback = container.querySelector(".reaction-match-feedback");
+    const bank = container.querySelector(".reaction-match-bank");
+    let draggedItem = null;
+
+    container.querySelectorAll(".reaction-match-item img").forEach(image => {
+        image.addEventListener("error", () => {
+            image.hidden = true;
+            image.closest(".reaction-match-item").classList.add("missing-image");
+        }, { once: true });
+    });
+
+    container.querySelectorAll(".reaction-match-item").forEach(item => {
+        item.addEventListener("dragstart", event => {
+            event.dataTransfer.setData("text/plain", item.dataset.image);
+            draggedItem = item;
+            item.classList.add("dragging");
+        });
+        item.addEventListener("dragend", () => {
+            item.classList.remove("dragging");
+            draggedItem = null;
+        });
+        item.addEventListener("click", () => {
+            container.querySelectorAll(".reaction-match-item.selected").forEach(selected => selected.classList.remove("selected"));
+            item.classList.add("selected");
+        });
+        item.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                item.click();
+            }
+        });
+    });
+
+    const placeItem = (item, zone) => {
+        if (!item || !zone) return;
+        const existingItem = zone.querySelector(".reaction-match-item");
+        if (existingItem && existingItem !== item) bank.appendChild(existingItem);
+        zone.appendChild(item);
+        item.classList.remove("selected");
+        feedback.textContent = "";
+        feedback.className = "reaction-match-feedback";
+    };
+
+    container.querySelectorAll(".reaction-match-zone").forEach(zone => {
+        zone.addEventListener("dragover", event => {
+            event.preventDefault();
+            zone.classList.add("over");
+        });
+        zone.addEventListener("dragleave", () => zone.classList.remove("over"));
+        zone.addEventListener("drop", event => {
+            event.preventDefault();
+            zone.classList.remove("over");
+            const imageName = event.dataTransfer.getData("text/plain");
+            placeItem(container.querySelector(`.reaction-match-item[data-image="${imageName}"]`), zone);
+        });
+        zone.addEventListener("click", () => {
+            placeItem(container.querySelector(".reaction-match-item.selected"), zone);
+        });
+        zone.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                zone.click();
+            }
+        });
+    });
+
+    bank.addEventListener("dragover", event => event.preventDefault());
+    bank.addEventListener("drop", event => {
+        event.preventDefault();
+        const imageName = event.dataTransfer.getData("text/plain");
+        const item = container.querySelector(`.reaction-match-item[data-image="${imageName}"]`);
+        if (item) bank.appendChild(item);
+    });
+
+    container.querySelector(".reaction-match-check").addEventListener("click", () => {
+        const placedItems = Array.from(container.querySelectorAll(".reaction-match-zone .reaction-match-item"));
+        const allPlaced = placedItems.length === reactionMatchItems.length;
+        const allCorrect = allPlaced && placedItems.every(item => item.dataset.answer === item.parentElement.dataset.answer);
+
+        if (allCorrect) {
+            feedback.textContent = "Excellent! You matched all five reactions correctly.";
+            feedback.className = "reaction-match-feedback success";
+            const currentProgress = getMissionProgress();
+            currentProgress.lessons[1] = true;
+            saveMissionProgress(currentProgress);
+            setTimeout(() => initializeMission(), 500);
+        } else {
+            feedback.textContent = "Drag every image into a reaction type, then try again.";
+            feedback.className = "reaction-match-feedback error";
+        }
+    });
+
+    container.querySelector(".reaction-match-reset").addEventListener("click", () => renderReactionMatchGame());
 }
 
 function advanceReactionGame() {
