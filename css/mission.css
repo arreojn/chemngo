@@ -1875,6 +1875,149 @@ body{
 
 }
 
+.reaction-game {
+    margin-top: 14px;
+    padding: 16px;
+    border: 1px solid #dfeaf8;
+    border-radius: 16px;
+    background: #f5f9ff;
+}
+
+.reaction-game-progress {
+    margin-bottom: 12px;
+    color: #214f8d;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+}
+
+.reaction-prompt {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.reaction-image-wrap {
+    min-height: 190px;
+    padding: 12px;
+    border: 2px solid #bfd6ff;
+    border-radius: 14px;
+    background: #fff;
+    display: grid;
+    place-items: center;
+}
+
+.reaction-image-wrap img {
+    max-width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.reaction-image-wrap.missing-image {
+    color: #647791;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.reaction-prompt p {
+    margin: 0;
+    color: #30445f;
+}
+
+.reaction-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0 0 14px;
+    padding: 0;
+    border: 0;
+}
+
+.reaction-options legend {
+    grid-column: 1 / -1;
+    margin-bottom: 9px;
+    color: #17345f;
+    font-weight: 800;
+}
+
+.reaction-option {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 1px solid #c8d9f0;
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    line-height: 1.25;
+}
+
+.reaction-option:has(input:checked) {
+    border-color: #3d82ff;
+    background: #edf4ff;
+}
+
+.reaction-option input {
+    accent-color: #3d82ff;
+    flex: 0 0 auto;
+}
+
+.reaction-option:focus-within {
+    outline: 3px solid rgba(61, 130, 255, .2);
+    outline-offset: 1px;
+}
+
+.reaction-submit {
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 15px;
+    background: #2675d8;
+    color: #fff;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.reaction-submit:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.reaction-feedback {
+    min-height: 22px;
+    margin: 12px 0 0;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.reaction-feedback.success {
+    color: #16734a;
+}
+
+.reaction-feedback.error {
+    color: #b23b3b;
+}
+
+.reaction-game-complete {
+    margin: 0;
+    color: #16734a;
+    font-weight: 800;
+}
+
+@media (max-width: 620px) {
+    .reaction-options {
+        grid-template-columns: 1fr;
+    }
+
+    .reaction-options legend {
+        margin-bottom: 4px;
+    }
+}
+
 .mission5-test-btn {
     margin: 8px 0 0 8px;
     border: 1px dashed #9aa5b1;
