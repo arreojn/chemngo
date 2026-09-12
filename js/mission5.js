@@ -328,6 +328,12 @@ document.querySelector('.back-btn').onclick = () => {
     window.location.href = 'home.html';
 };
 
+document.querySelector('#clearStorageBtn').onclick = () => {
+    if (!window.confirm('Clear all saved Chem and Go progress?')) return;
+    localStorage.clear();
+    window.location.reload();
+};
+
 function renderNameThatReactionGame() {
     const container = document.getElementById("name-that-reaction-game");
     if (!container) return;
@@ -866,14 +872,180 @@ function shuffleArray(items) {
 }
 
 /*=========================================
-    QUIZ LOGIC (MASTERY CHALLENGE)
+    MASTERY CHALLENGE: REACTION BUILDER
 ==========================================*/
 
-// Placeholder for quiz functionality
+const masteryChallenges = [
+    { level: "Level 1 - Synthesis", context: "Magnesium ribbon burns in oxygen and forms magnesium oxide.", question: "Build the reaction and identify its type.", slots: ["Mg", "O2", "MgO"], operators: ["+", "->"], answerType: "Synthesis", explanation: "Two reactants combine to form one product.", cards: [["Mg", "Magnesium"], ["O2", "Oxygen"], ["MgO", "Magnesium oxide"], ["H2", "Hydrogen"], ["NaCl", "Sodium chloride"]] },
+    { level: "Level 2 - Decomposition", context: "When sodium bicarbonate is heated, it breaks down into simpler substances.", question: "Build the simplified decomposition reaction.", slots: ["2NaHCO3", "Na2CO3 + CO2 + H2O"], operators: ["->"], answerType: "Decomposition", explanation: "One compound breaks down into several simpler substances.", cards: [["2NaHCO3", "Sodium bicarbonate"], ["Na2CO3 + CO2 + H2O", "Products"], ["O2", "Oxygen"], ["NaCl", "Sodium chloride"], ["HCl", "Hydrochloric acid"]] },
+    { level: "Level 3 - Single Replacement", context: "Zinc granules are added to hydrochloric acid and hydrogen gas is produced.", question: "Build the reaction and identify its type.", slots: ["Zn", "2HCl", "ZnCl2 + H2"], operators: ["+", "->"], answerType: "Single Replacement", explanation: "Zinc replaces hydrogen in hydrochloric acid.", cards: [["Zn", "Zinc"], ["2HCl", "Hydrochloric acid"], ["ZnCl2 + H2", "Products"], ["NaOH", "Sodium hydroxide"], ["O2", "Oxygen"]] },
+    { level: "Level 4 - Double Replacement", context: "Silver nitrate and sodium chloride are mixed and a white precipitate appears.", question: "Build the reaction that produces the precipitate.", slots: ["AgNO3", "NaCl", "AgCl + NaNO3"], operators: ["+", "->"], answerType: "Double Replacement", explanation: "The ions exchange partners to form silver chloride and sodium nitrate.", cards: [["AgNO3", "Silver nitrate"], ["NaCl", "Sodium chloride"], ["AgCl + NaNO3", "Products"], ["H2", "Hydrogen"], ["O2", "Oxygen"]] },
+    { level: "Level 5 - Combustion", context: "Propane reacts with oxygen and produces carbon dioxide and water.", question: "Build the simplified complete combustion reaction of propane.", slots: ["C3H8", "5O2", "3CO2 + 4H2O"], operators: ["+", "->"], answerType: "Combustion", explanation: "A hydrocarbon reacts with oxygen to produce carbon dioxide and water.", cards: [["C3H8", "Propane"], ["5O2", "Oxygen"], ["3CO2 + 4H2O", "Products"], ["NaCl", "Sodium chloride"], ["H2", "Hydrogen"]] },
+    { level: "Level 6 - Community Science", context: "Iron is placed in copper(II) sulfate solution during a reaction investigation.", question: "Construct the reaction and identify its type.", slots: ["Fe", "CuSO4", "FeSO4 + Cu"], operators: ["+", "->"], answerType: "Single Replacement", explanation: "Iron replaces copper in copper(II) sulfate.", cards: [["Fe", "Iron"], ["CuSO4", "Copper(II) sulfate"], ["FeSO4 + Cu", "Products"], ["NaCl", "Sodium chloride"], ["CO2", "Carbon dioxide"]] },
+    { level: "Level 7 - Cleaning Chemistry", context: "Barium chloride and sodium sulfate exchange ions and form barium sulfate.", question: "Use the correct compounds to construct the reaction.", slots: ["BaCl2", "Na2SO4", "BaSO4 + 2NaCl"], operators: ["+", "->"], answerType: "Double Replacement", explanation: "The ions exchange partners and barium sulfate forms as a solid.", cards: [["BaCl2", "Barium chloride"], ["Na2SO4", "Sodium sulfate"], ["BaSO4 + 2NaCl", "Products"], ["Mg", "Magnesium"], ["O2", "Oxygen"]] },
+    { level: "Level 8 - Everyday Chemistry", context: "Hydrogen peroxide breaks down into water and oxygen.", question: "Construct the decomposition reaction.", slots: ["2H2O2", "2H2O + O2"], operators: ["->"], answerType: "Decomposition", explanation: "One compound breaks apart into water and oxygen.", cards: [["2H2O2", "Hydrogen peroxide"], ["2H2O + O2", "Products"], ["CO2", "Carbon dioxide"], ["NaCl", "Sodium chloride"], ["CH4", "Methane"]] },
+    { level: "Level 9 - Materials Around Us", context: "Calcium reacts with oxygen to form calcium oxide.", question: "Build the reaction and identify the pattern.", slots: ["2Ca", "O2", "2CaO"], operators: ["+", "->"], answerType: "Synthesis", explanation: "Two reactants combine to form one product.", cards: [["2Ca", "Calcium"], ["O2", "Oxygen"], ["2CaO", "Calcium oxide"], ["HCl", "Hydrochloric acid"], ["NaOH", "Sodium hydroxide"]] },
+    { level: "Level 10 - Household Chemistry", context: "Methane reacts with oxygen and produces carbon dioxide and water.", question: "Represent the combustion of methane.", slots: ["CH4", "2O2", "CO2 + 2H2O"], operators: ["+", "->"], answerType: "Combustion", explanation: "Methane is a hydrocarbon that produces carbon dioxide and water with oxygen.", cards: [["CH4", "Methane"], ["2O2", "Oxygen"], ["CO2 + 2H2O", "Products"], ["NaCl", "Sodium chloride"], ["Zn", "Zinc"]] },
+    { level: "Level 11 - Reaction Analyst", context: "Magnesium reacts with hydrochloric acid to form magnesium chloride and hydrogen gas.", question: "Build the reaction and identify its type.", slots: ["Mg", "2HCl", "MgCl2 + H2"], operators: ["+", "->"], answerType: "Single Replacement", explanation: "Magnesium replaces hydrogen in hydrochloric acid.", cards: [["Mg", "Magnesium"], ["2HCl", "Hydrochloric acid"], ["MgCl2 + H2", "Products"], ["O2", "Oxygen"], ["CO2", "Carbon dioxide"], ["NaCl", "Sodium chloride"]] },
+    { level: "Final Boss - Reaction Master", context: "Hydrochloric acid and sodium hydroxide exchange ions to form salt and water.", question: "Build the reaction and identify its type.", slots: ["HCl", "NaOH", "NaCl + H2O"], operators: ["+", "->"], answerType: "Double Replacement", explanation: "The ions exchange partners to form sodium chloride and water.", cards: [["HCl", "Hydrochloric acid"], ["NaOH", "Sodium hydroxide"], ["NaCl + H2O", "Products"], ["Mg", "Magnesium"], ["O2", "Oxygen"], ["C3H8", "Propane"]] }
+];
+
+let masteryState = { current: 0, score: 0, streak: 0, selectedCard: null, selectedType: null, reactionCorrect: false, typeCorrect: false, completed: false };
+
 function startQuiz() {
-    alert("Quiz for Mission 5 is not implemented yet. Completing for demonstration.");
-    let progress = getMissionProgress();
-    progress.quizCompleted = true;
-    saveMissionProgress(progress);
-    initializeMission();
+    masteryState = { current: 0, score: 0, streak: 0, selectedCard: null, selectedType: null, reactionCorrect: false, typeCorrect: false, completed: false };
+    document.getElementById("quizContainer").style.display = "block";
+    document.getElementById("quizContainer").scrollIntoView({ behavior: "smooth", block: "start" });
+    renderMasteryChallenge();
+}
+
+function renderMasteryChallenge() {
+    const challenge = masteryChallenges[masteryState.current];
+    masteryState.selectedCard = null;
+    masteryState.selectedType = null;
+    masteryState.reactionCorrect = false;
+    masteryState.typeCorrect = false;
+    document.getElementById("masteryChallengeNumber").textContent = `${masteryState.current + 1}/${masteryChallenges.length}`;
+    document.getElementById("masteryScore").textContent = masteryState.score;
+    document.getElementById("masteryStreak").textContent = masteryState.streak;
+    document.getElementById("masteryProgressFill").style.width = `${masteryState.current / masteryChallenges.length * 100}%`;
+    document.getElementById("masteryLevel").textContent = challenge.level;
+    document.getElementById("masteryContext").textContent = challenge.context;
+    document.getElementById("masteryQuestion").textContent = challenge.question;
+    document.getElementById("masteryFeedback").textContent = "";
+    document.getElementById("masteryFeedback").className = "mastery-feedback";
+    document.getElementById("masteryNext").hidden = true;
+    document.getElementById("masteryResult").hidden = true;
+    renderMasteryBoard(challenge);
+    renderMasteryCards(challenge);
+    document.querySelectorAll("#masteryTypeButtons button").forEach(button => {
+        button.className = "";
+        button.onclick = () => selectMasteryType(button, challenge);
+    });
+}
+
+function renderMasteryBoard(challenge) {
+    const board = document.getElementById("masteryReactionBoard");
+    board.innerHTML = "";
+    challenge.slots.forEach((slot, index) => {
+        const zone = document.createElement("button");
+        zone.type = "button";
+        zone.className = "mastery-drop-zone";
+        zone.textContent = index === challenge.slots.length - 1 ? "Drop product here" : "Drop here";
+        zone.dataset.index = index;
+        zone.addEventListener("click", () => placeMasteryCard(zone));
+        zone.addEventListener("dragover", event => { event.preventDefault(); zone.classList.add("active"); });
+        zone.addEventListener("dragleave", () => zone.classList.remove("active"));
+        zone.addEventListener("drop", event => { event.preventDefault(); zone.classList.remove("active"); placeMasteryCard(zone, event.dataTransfer.getData("text/plain")); });
+        board.appendChild(zone);
+        if (index < challenge.slots.length - 1) {
+            const operator = document.createElement("span");
+            operator.className = "mastery-operator";
+            operator.textContent = challenge.operators[index];
+            board.appendChild(operator);
+        }
+    });
+}
+
+function renderMasteryCards(challenge) {
+    const container = document.getElementById("masteryCards");
+    container.innerHTML = "";
+    shuffleArray(challenge.cards).forEach(card => {
+        const element = document.createElement("button");
+        element.type = "button";
+        element.className = "mastery-card";
+        element.dataset.formula = card[0];
+        element.dataset.name = card[1];
+        element.innerHTML = `<strong>${card[0]}</strong><span>${card[1]}</span>`;
+        element.draggable = true;
+        element.addEventListener("click", () => { document.querySelectorAll(".mastery-card.selected").forEach(item => item.classList.remove("selected")); element.classList.add("selected"); masteryState.selectedCard = element; });
+        element.addEventListener("dragstart", event => { event.dataTransfer.setData("text/plain", card[0]); masteryState.selectedCard = element; });
+        container.appendChild(element);
+    });
+}
+
+function placeMasteryCard(zone, formula) {
+    const card = formula ? Array.from(document.querySelectorAll(".mastery-card")).find(item => item.dataset.formula === formula) : masteryState.selectedCard;
+    if (!card) return;
+    zone.dataset.formula = card.dataset.formula;
+    zone.innerHTML = `<strong>${card.dataset.formula}</strong><span>${card.dataset.name}</span>`;
+    zone.classList.add("filled");
+    masteryState.selectedCard = null;
+    document.querySelectorAll(".mastery-card.selected").forEach(item => item.classList.remove("selected"));
+    checkMasteryBuild();
+}
+
+function checkMasteryBuild() {
+    const challenge = masteryChallenges[masteryState.current];
+    const zones = Array.from(document.querySelectorAll(".mastery-drop-zone"));
+    masteryState.reactionCorrect = zones.length === challenge.slots.length && zones.every((zone, index) => zone.dataset.formula === challenge.slots[index]);
+        if (masteryState.reactionCorrect) {
+            setMasteryFeedback("Reaction built correctly. Now identify its type.", "success");
+            if (masteryState.typeCorrect) completeMasteryChallenge();
+        }
+}
+
+function selectMasteryType(button, challenge) {
+    if (masteryState.typeCorrect) return;
+    document.querySelectorAll("#masteryTypeButtons button").forEach(item => item.className = "");
+    masteryState.selectedType = button.dataset.type;
+    button.classList.add("selected");
+    if (masteryState.selectedType === challenge.answerType) {
+        masteryState.typeCorrect = true;
+        button.className = "correct";
+        setMasteryFeedback(challenge.explanation, "success");
+    } else {
+        button.className = "wrong";
+        setMasteryFeedback("That type does not match. Try another choice.", "error");
+    }
+    checkMasteryCompletion(challenge);
+}
+
+function checkMasteryCompletion(challenge) {
+    if (!masteryState.reactionCorrect || !masteryState.typeCorrect || masteryState.completed) return;
+    masteryState.completed = true;
+    masteryState.score += 3;
+    masteryState.streak += 1;
+    document.getElementById("masteryScore").textContent = masteryState.score;
+    document.getElementById("masteryStreak").textContent = masteryState.streak;
+    setMasteryFeedback("Challenge complete. Reaction build +1, reaction type +2.", "success");
+    const nextButton = document.getElementById("masteryNext");
+    nextButton.hidden = false;
+    nextButton.textContent = masteryState.current === masteryChallenges.length - 1 ? "View Results" : "Next Challenge";
+    nextButton.onclick = advanceMasteryChallenge;
+}
+
+function setMasteryFeedback(message, type) {
+    const feedback = document.getElementById("masteryFeedback");
+    feedback.textContent = message;
+    feedback.className = `mastery-feedback ${type}`;
+}
+
+function advanceMasteryChallenge() {
+    if (!masteryState.completed) return;
+    if (masteryState.current === masteryChallenges.length - 1) {
+        showMasteryResults();
+        return;
+    }
+    masteryState.current += 1;
+    masteryState.completed = false;
+    renderMasteryChallenge();
+}
+
+function showMasteryResults() {
+    document.getElementById("masteryReactionBoard").innerHTML = "";
+    document.getElementById("masteryCards").innerHTML = "";
+    document.getElementById("masteryTypeButtons").innerHTML = "";
+    document.querySelectorAll(".mastery-section-title").forEach(title => title.hidden = true);
+    document.getElementById("masteryFeedback").hidden = true;
+    document.getElementById("masteryNext").hidden = true;
+    const result = document.getElementById("masteryResult");
+    result.hidden = false;
+    result.innerHTML = `<h3>Reaction Builder Complete</h3><p>Final score: <strong>${masteryState.score}/${masteryChallenges.length * 3}</strong></p><p>You completed all 12 mastery challenges.</p><button type="button" class="mastery-finish">Claim Mission Reward</button>`;
+    result.querySelector(".mastery-finish").addEventListener("click", () => {
+        const progress = getMissionProgress();
+        progress.quizCompleted = true;
+        saveMissionProgress(progress);
+        initializeMission();
+    });
 }
