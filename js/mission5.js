@@ -41,11 +41,57 @@ const reactionMatchTypes = [
     "Combustion"
 ];
 
+const reactionMemoryPairs = [
+    ...nameThatReactionItems,
+    ...reactionMatchItems,
+    nameThatReactionItems[0],
+    nameThatReactionItems[5],
+    nameThatReactionItems[9]
+].map((item, index) => ({
+    id: `reaction-memory-${index}`,
+    image: item.image,
+    description: item.description,
+    answer: item.answer
+}));
+
+const changeClassificationItems = Array.from({ length: 20 }, (_, index) => ({
+    id: index + 1,
+    type: [1, 2, 3, 4, 5, 11, 12, 13, 14, 15].includes(index + 1) ? "physical" : "chemical",
+    src: `assets/mission1/${index + 1}.png`,
+    description: `Change classification example ${index + 1}`
+}));
+
+const reactionSpeedRounds = [
+    { name: "Easy", seconds: 10, count: 5, start: 0 },
+    { name: "Moderate", seconds: 5, count: 7, start: 5 },
+    { name: "Difficult", seconds: 3, count: 8, start: 12 }
+];
+
 let reactionGameState = {
     order: [],
     index: 0,
     score: 0,
     answered: false
+};
+
+let reactionMemoryState = {
+    cards: [],
+    flipped: [],
+    matched: new Set(),
+    moves: 0,
+    locked: false
+};
+
+let reactionSpeedState = {
+    roundIndex: 0,
+    questionIndex: 0,
+    score: 0,
+    roundScore: 0,
+    questionOrder: [],
+    started: false,
+    answered: false,
+    retryRequired: false,
+    timerId: null
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -58,6 +104,8 @@ function initializeMission() {
     setupEventListeners(progress);
     renderNameThatReactionGame();
     renderReactionMatchGame();
+    renderReactionMemoryGame();
+    renderReactionSpeedGame();
 }
 
 function getMissionProgress() {
@@ -485,6 +533,310 @@ function renderReactionMatchGame() {
     });
 
     container.querySelector(".reaction-match-reset").addEventListener("click", () => renderReactionMatchGame());
+}
+
+function renderReactionMemoryGame() {
+    const container = document.getElementById("reaction-memory-game");
+    if (!container) return;
+
+    const progress = getMissionProgress();
+    if (progress.lessons[2]) {
+        container.innerHTML = '<p class="reaction-game-complete"><i class="fa-solid fa-circle-check"></i> Reaction Memory complete.</p>';
+        return;
+    }
+
+    const cards = shuffleArray(reactionMemoryPairs.flatMap(pair => [
+        { ...pair, kind: "type" },
+        { ...pair, kind: "image" }
+    ]));
+
+    reactionMemoryState = {
+        cards,
+        flipped: [],
+        matched: new Set(),
+        moves: 0,
+        locked: false
+    };
+
+    container.innerHTML = `
+        <div class="reaction-memory-status" aria-live="polite">
+            <span>Matches <strong data-memory-matches>0</strong>/${reactionMemoryPairs.length}</span>
+            <span>Moves <strong data-memory-moves>0</strong></span>
+        </div>
+        <div class="reaction-memory-board" role="grid" aria-label="Reaction memory game">
+            ${cards.map((card, index) => `
+                <button type="button" class="reaction-memory-card" data-card-index="${index}" aria-label="Hidden tile" role="gridcell">
+                    <span class="reaction-memory-card-inner">
+                        <span class="reaction-memory-card-face reaction-memory-card-back" aria-hidden="true">?</span>
+                        <span class="reaction-memory-card-face reaction-memory-card-front">
+                            ${card.kind === "type"
+                                ? `<span class="reaction-memory-type">${card.answer}</span>`
+                                : `<img src="assets/mission5/${card.image}" alt="${card.description}">`}
+                        </span>
+                    </span>
+                </button>
+            `).join("")}
+        </div>
+        <button type="button" class="reaction-memory-reset">Reset board</button>
+        <p class="reaction-memory-feedback" aria-live="polite"></p>
+    `;
+
+    container.querySelectorAll(".reaction-memory-card").forEach(card => {
+        card.addEventListener("click", () => handleMemoryCardClick(container, card));
+    });
+    container.querySelector(".reaction-memory-reset").addEventListener("click", () => {
+        renderReactionMemoryGame();
+        showReactionMemoryToast();
+    });
+}
+
+function showReactionMemoryToast() {
+    document.querySelector(".reaction-memory-toast")?.remove();
+
+    const toast = document.createElement("div");
+    toast.className = "reaction-memory-toast";
+    toast.setAttribute("role", "status");
+    toast.textContent = "Board reset.";
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.remove(), 2200);
+}
+
+function handleMemoryCardClick(container, card) {
+    const cardIndex = Number(card.dataset.cardIndex);
+    const cardData = reactionMemoryState.cards[cardIndex];
+
+    if (
+        reactionMemoryState.locked ||
+        reactionMemoryState.matched.has(cardData.id) ||
+        reactionMemoryState.flipped.some(index => index === cardIndex)
+    ) return;
+
+    card.classList.add("flipped");
+    card.setAttribute("aria-label", cardData.kind === "type" ? cardData.answer : cardData.description);
+    reactionMemoryState.flipped.push(cardIndex);
+
+    if (reactionMemoryState.flipped.length < 2) return;
+
+    reactionMemoryState.moves += 1;
+    container.querySelector("[data-memory-moves]").textContent = reactionMemoryState.moves;
+    const [firstIndex, secondIndex] = reactionMemoryState.flipped;
+    const firstCard = reactionMemoryState.cards[firstIndex];
+    const secondCard = reactionMemoryState.cards[secondIndex];
+
+    if (firstCard.id === secondCard.id) {
+        reactionMemoryState.matched.add(firstCard.id);
+        container.querySelectorAll(`[data-card-index="${firstIndex}"], [data-card-index="${secondIndex}"]`).forEach(matchedCard => {
+            matchedCard.classList.add("matched");
+            matchedCard.disabled = true;
+        });
+        container.querySelector("[data-memory-matches]").textContent = reactionMemoryState.matched.size;
+        reactionMemoryState.flipped = [];
+
+        if (reactionMemoryState.matched.size === reactionMemoryPairs.length) {
+            const feedback = container.querySelector(".reaction-memory-feedback");
+            feedback.textContent = `Excellent! You found all ${reactionMemoryPairs.length} matches.`;
+            feedback.className = "reaction-memory-feedback success";
+            const progress = getMissionProgress();
+            progress.lessons[2] = true;
+            saveMissionProgress(progress);
+            setTimeout(() => initializeMission(), 700);
+        }
+        return;
+    }
+
+    reactionMemoryState.locked = true;
+    setTimeout(() => {
+        container.querySelectorAll(`[data-card-index="${firstIndex}"], [data-card-index="${secondIndex}"]`).forEach(flippedCard => {
+            flippedCard.classList.remove("flipped");
+            flippedCard.setAttribute("aria-label", "Hidden tile");
+        });
+        reactionMemoryState.flipped = [];
+        reactionMemoryState.locked = false;
+    }, 850);
+}
+
+function renderReactionSpeedGame() {
+    const container = document.getElementById("reaction-speed-game");
+    if (!container) return;
+
+    clearInterval(reactionSpeedState.timerId);
+    const progress = getMissionProgress();
+    if (progress.lessons[3]) {
+        container.innerHTML = '<p class="reaction-game-complete"><i class="fa-solid fa-circle-check"></i> Chemical or Physical complete.</p>';
+        return;
+    }
+
+    const round = reactionSpeedRounds[reactionSpeedState.roundIndex];
+    if (reactionSpeedState.retryRequired) {
+        container.innerHTML = `
+            <div class="reaction-speed-intro">
+                <span class="reaction-speed-round-label">${round.name} Round</span>
+                <h4>Round Incomplete</h4>
+                <p>You scored ${reactionSpeedState.roundScore}/${round.count}. Get a perfect score to continue.</p>
+                <button type="button" class="reaction-speed-start reaction-speed-retry">Retry ${round.name} Round</button>
+                <button type="button" class="reaction-speed-reset">Reset Challenge</button>
+            </div>
+        `;
+        container.querySelector(".reaction-speed-retry").addEventListener("click", () => {
+            reactionSpeedState.questionIndex = 0;
+            reactionSpeedState.roundScore = 0;
+            reactionSpeedState.retryRequired = false;
+            reactionSpeedState.started = true;
+            renderReactionSpeedGame();
+        });
+        container.querySelector(".reaction-speed-reset").addEventListener("click", resetReactionSpeedChallenge);
+        return;
+    }
+
+    if (!reactionSpeedState.started) {
+        container.innerHTML = `
+            <div class="reaction-speed-intro">
+                <span class="reaction-speed-round-label">Round ${reactionSpeedState.roundIndex + 1} of ${reactionSpeedRounds.length}</span>
+                <h4>${round.name} Round</h4>
+                <p>Classify ${round.count} changes with ${round.seconds} seconds for each image.</p>
+                <button type="button" class="reaction-speed-start">Start ${round.name} Round</button>
+                <button type="button" class="reaction-speed-reset">Reset Challenge</button>
+            </div>
+        `;
+        container.querySelector(".reaction-speed-start").addEventListener("click", () => {
+            if (!reactionSpeedState.questionOrder.length) {
+                reactionSpeedState.questionOrder = shuffleArray(changeClassificationItems.map(item => item.id));
+            }
+            reactionSpeedState.started = true;
+            renderReactionSpeedGame();
+        });
+        container.querySelector(".reaction-speed-reset").addEventListener("click", resetReactionSpeedChallenge);
+        return;
+    }
+
+    const questionId = reactionSpeedState.questionOrder[round.start + reactionSpeedState.questionIndex];
+    const item = changeClassificationItems.find(change => change.id === questionId);
+    reactionSpeedState.answered = false;
+    container.innerHTML = `
+        <div class="reaction-speed-header">
+            <div>
+                <span class="reaction-speed-round-label">${round.name} Round</span>
+                <strong>Question ${reactionSpeedState.questionIndex + 1} of ${round.count}</strong>
+            </div>
+            <div class="reaction-speed-timer" aria-live="polite">
+                <i class="fa-solid fa-stopwatch"></i>
+                <span data-speed-time>${round.seconds}</span>s
+            </div>
+            <button type="button" class="reaction-speed-reset">Reset</button>
+        </div>
+        <div class="reaction-speed-image-wrap">
+            <img src="${item.src}" alt="${item.description}">
+        </div>
+        <div class="reaction-speed-options">
+            <button type="button" class="reaction-speed-option" data-type="physical">Physical Change</button>
+            <button type="button" class="reaction-speed-option" data-type="chemical">Chemical Change</button>
+        </div>
+        <p class="reaction-speed-feedback" aria-live="polite"></p>
+    `;
+
+    const image = container.querySelector("img");
+    image.addEventListener("error", () => {
+        image.hidden = true;
+        image.parentElement.insertAdjacentHTML("beforeend", "<span>Image unavailable</span>");
+    }, { once: true });
+
+    container.querySelectorAll(".reaction-speed-option").forEach(button => {
+        button.addEventListener("click", () => submitSpeedAnswer(container, item, button.dataset.type));
+    });
+    container.querySelector(".reaction-speed-reset").addEventListener("click", resetReactionSpeedChallenge);
+
+    const startedAt = Date.now();
+    reactionSpeedState.timerId = setInterval(() => {
+        const timeLeft = Math.max(0, round.seconds - (Date.now() - startedAt) / 1000);
+        container.querySelector("[data-speed-time]").textContent = Math.ceil(timeLeft);
+        if (timeLeft <= 0) submitSpeedAnswer(container, item, null);
+    }, 100);
+}
+
+function submitSpeedAnswer(container, item, selectedType) {
+    if (reactionSpeedState.answered) return;
+
+    reactionSpeedState.answered = true;
+    clearInterval(reactionSpeedState.timerId);
+    container.querySelectorAll(".reaction-speed-option").forEach(button => {
+        button.disabled = true;
+        if (button.dataset.type === item.type) button.classList.add("correct");
+        if (button.dataset.type === selectedType && selectedType !== item.type) button.classList.add("incorrect");
+    });
+
+    const feedback = container.querySelector(".reaction-speed-feedback");
+    if (selectedType === item.type) {
+        reactionSpeedState.score += 1;
+        reactionSpeedState.roundScore += 1;
+        feedback.textContent = "Correct!";
+        feedback.className = "reaction-speed-feedback success";
+    } else if (!selectedType) {
+        feedback.textContent = `Time's up. This was a ${item.type} change.`;
+        feedback.className = "reaction-speed-feedback error";
+    } else {
+        feedback.textContent = `Not quite. This was a ${item.type} change.`;
+        feedback.className = "reaction-speed-feedback error";
+    }
+
+    setTimeout(advanceSpeedChallenge, 650);
+}
+
+function advanceSpeedChallenge() {
+    const round = reactionSpeedRounds[reactionSpeedState.roundIndex];
+    if (reactionSpeedState.questionIndex < round.count - 1) {
+        reactionSpeedState.questionIndex += 1;
+        renderReactionSpeedGame();
+        return;
+    }
+
+    if (reactionSpeedState.roundScore !== round.count) {
+        reactionSpeedState.retryRequired = true;
+        reactionSpeedState.started = false;
+        renderReactionSpeedGame();
+        return;
+    }
+
+    if (reactionSpeedState.roundIndex < reactionSpeedRounds.length - 1) {
+        reactionSpeedState.roundIndex += 1;
+        reactionSpeedState.questionIndex = 0;
+        reactionSpeedState.roundScore = 0;
+        reactionSpeedState.started = false;
+        renderReactionSpeedGame();
+        return;
+    }
+
+    const progress = getMissionProgress();
+    progress.lessons[3] = true;
+    saveMissionProgress(progress);
+    reactionSpeedState = {
+        roundIndex: 0,
+        questionIndex: 0,
+        score: 0,
+        roundScore: 0,
+        questionOrder: [],
+        started: false,
+        answered: false,
+        retryRequired: false,
+        timerId: null
+    };
+    initializeMission();
+}
+
+function resetReactionSpeedChallenge() {
+    clearInterval(reactionSpeedState.timerId);
+    reactionSpeedState = {
+        roundIndex: 0,
+        questionIndex: 0,
+        score: 0,
+        roundScore: 0,
+        questionOrder: [],
+        started: false,
+        answered: false,
+        retryRequired: false,
+        timerId: null
+    };
+    renderReactionSpeedGame();
 }
 
 function advanceReactionGame() {
